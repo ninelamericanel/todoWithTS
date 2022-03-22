@@ -14,7 +14,9 @@ export const App: React.FC = () => {
     return (
         <section className="todoapp">
             <NewTaskForm/>
-            <TaskList todos={todos}/>
+            <section className='main'>
+                <TaskList todos={todos}/>
+            </section>
             <Footer/>
         </section>)
 }
