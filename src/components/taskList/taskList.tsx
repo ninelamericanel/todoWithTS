@@ -8,12 +8,21 @@ type TodosProp = {
 }
 
 export const TaskList = ({todos}: TodosProp) => {
-    console.log(todos);
+    let todosNodes = todos.map(item => {
+        let {id, ...other} = item;
+        // console.log(item.completed, item.editing);
+        // let completedClass = item.completed ? 'completed' : null;
+        // let editingClass = item.editing ? 'editing' : null;
+        return (
+            <li key={id}>
+                <Task todo={other}/>
+            </li>
+        )
+    })
 
     return (
         <section className="main">
-            <ul className="todo-list"></ul>
-            <Task/>
+            <ul className="todo-list">{todosNodes}</ul>
         </section>
     )
 }
