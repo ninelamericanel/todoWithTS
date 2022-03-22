@@ -11,8 +11,6 @@ export const App: React.FC = () => {
         {id: 2, completed: false, created: new Date('December 23, 2022'), description: 'Editing task', editing: true},
         {id: 3, completed: false, created: new Date('December 25, 2022'), description: 'Active task', editing: false}]
 
-    console.log(todos);
-
     return (
         <section className="todoapp">
             <NewTaskForm/>
