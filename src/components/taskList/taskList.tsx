@@ -4,17 +4,22 @@ import Task from "../task";
 import {TodoItem} from "../todos";
 
 type TodosProp = {
-    todos: Array<TodoItem>
+    todos: Array<TodoItem>,
+    onCompleted: (id: string) => void
 }
 
-export const TaskList = ({todos}: TodosProp) => {
+
+export const TaskList = ({todos, onCompleted}: TodosProp) => {
+
     let todosNodes = todos.map(item => {
         let {id, completed, editing,  created, description} = item;
         let completedClass = completed ? 'completed' : null;
         let editingClass = editing ? 'editing' : null;
         return (
-            <li className={completedClass || editingClass || undefined} key={id}>
-                <Task created={created} description={description}/>
+            <li className={completedClass || editingClass || undefined}
+                key={id}
+                onClick={() => onCompleted(id)}>
+                <Task created={created} description={description} completed={completed}/>
             </li>
         )
     })

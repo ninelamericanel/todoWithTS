@@ -5,7 +5,13 @@ import Footer from "../footer";
 import NewTaskForm from "../newTaskForm";
 import TaskList from "../taskList";
 
-export default class App extends Component {
+type TodosState = {
+    todos: Array<TodoItem>
+}
+
+type TodosProps = {}
+
+export default class App extends Component<TodosProps, TodosState> {
     state = {
         todos: [
             {
@@ -32,12 +38,26 @@ export default class App extends Component {
         ]
     }
 
+    onCompleted = (id: string) => {
+        let newTodos = this.state.todos.map((item) => {
+            if (item.id === id) {
+                item.completed = !item.completed;
+            }
+            return item;
+        });
+
+        return this.setState({
+            todos: newTodos
+        })
+    }
+
     render() {
         return (
             <section className="todoapp">
                 <NewTaskForm/>
                 <section className="main">
-                    <TaskList todos={this.state.todos}/>
+                    <TaskList todos={this.state.todos}
+                              onCompleted={this.onCompleted}/>
                 </section>
                 <Footer/>
             </section>)
