@@ -9,13 +9,12 @@ type TodosProp = {
 
 export const TaskList = ({todos}: TodosProp) => {
     let todosNodes = todos.map(item => {
-        let {id, completed, editing,  ...other} = item;
-        // console.log(item.completed, item.editing);
-        // let completedClass = item.completed ? 'completed' : null;
-        // let editingClass = item.editing ? 'editing' : null;
+        let {id, completed, editing,  created, description} = item;
+        let completedClass = completed ? 'completed' : null;
+        let editingClass = editing ? 'editing' : null;
         return (
-            <li key={id}>
-                <Task todo={other}/>
+            <li className={completedClass || editingClass || undefined} key={id}>
+                <Task created={created} description={description}/>
             </li>
         )
     })
