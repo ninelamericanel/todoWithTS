@@ -1,18 +1,18 @@
 import React from "react";
 import './style.css';
-import Task from "../task";
-import {TodoItem} from "../todos";
+import {OnCompletedFunc} from "@componentTypes/app";
+import {TodoItem} from "@componentTypes/todos";
+import Task from "components/task";
 
 type TodosProp = {
-    todos: Array<TodoItem>,
-    onCompleted: (id: string) => void
+    todos: TodoItem[],
+    onCompleted: OnCompletedFunc
 }
 
-
-export const TaskList = ({todos, onCompleted}: TodosProp) => {
+export const TaskList: React.FC<TodosProp> = ({todos, onCompleted}) => {
 
     let todosNodes = todos.map(item => {
-        let {id, completed, editing,  created, description} = item;
+        let {id, completed, editing, created, description} = item;
         let completedClass = completed ? 'completed' : null;
         let editingClass = editing ? 'editing' : null;
         return (
