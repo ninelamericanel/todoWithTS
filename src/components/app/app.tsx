@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import './style.css';
 
-import {OnCompletedFunc, OnDeletedFunc, OnAddFunc} from "@componentTypes/app";
+import {OnCompletedFunc, OnDeletedFunc, OnAddFunc, ClearCompleteFunc} from "@componentTypes/app";
 import {TodoItem} from "@componentTypes/todos";
 import Footer from "components/footer";
 import NewTaskForm from "components/newTaskForm";
@@ -76,6 +76,16 @@ export default class App extends Component<TodosProps, AppState> {
         })
     }
 
+    clearComplete: ClearCompleteFunc = () => {
+        let newTodos = this.state.todos.filter((item) => {
+            return item.completed ? null : item;
+        });
+
+        this.setState({
+            todos: newTodos
+        })
+    }
+
     onDeleted: OnDeletedFunc = (id) => {
         let newTodos = this.state.todos.filter((item) => {
             return item.id !== id ? item : null;
@@ -89,13 +99,15 @@ export default class App extends Component<TodosProps, AppState> {
     render() {
         return (
             <section className="todoapp">
-                <NewTaskForm/>
+                <NewTaskForm onAdd={this.onAdd}/>
                 <section className="main">
                     <TaskList todos={this.state.todos}
                               onCompleted={this.onCompleted}
                               onDeleted={this.onDeleted}/>
                 </section>
-                <Footer/>
+                <Footer
+
+                clearComplete={this.clearComplete}/>
             </section>)
     }
 

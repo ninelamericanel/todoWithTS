@@ -1,7 +1,12 @@
+import {ClearCompleteFunc} from "@componentTypes/app";
 import React from "react";
 import './style.css';
 
-export const Footer:React.FC = () => {
+type FooterProps = {
+    clearComplete: ClearCompleteFunc
+}
+
+export const Footer: React.FC<FooterProps> = ({clearComplete}) => {
     return (<footer className="footer">
         <span className="todo-count">1 items left</span>
         <ul className="filters">
@@ -15,6 +20,9 @@ export const Footer:React.FC = () => {
                 <button>Completed</button>
             </li>
         </ul>
-        <button className="clear-completed">Clear completed</button>
+        <button className="clear-completed"
+                onClick={() => clearComplete()}>
+            Clear completed
+        </button>
     </footer>)
 }
