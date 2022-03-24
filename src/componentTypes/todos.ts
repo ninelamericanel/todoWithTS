@@ -8,5 +8,5 @@ export interface TodoItem {
 
 export interface FilterBtns {
     name: string,
-    active: boolean
+    selected: boolean
 }
