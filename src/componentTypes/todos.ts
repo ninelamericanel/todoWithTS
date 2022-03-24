@@ -6,4 +6,7 @@ export interface TodoItem {
     created: Date;
 }
 
-
+export interface FilterBtns {
+    name: string,
+    active: boolean
+}
