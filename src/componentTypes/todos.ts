@@ -1,5 +1,3 @@
-// const date: Date = new Date();
-
 export interface TodoItem {
     description: string;
     id: string;
