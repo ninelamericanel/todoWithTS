@@ -1,5 +1,6 @@
 import React from "react";
 import './style.css';
+import {format, formatDistanceToNow} from 'date-fns';
 import {OnDeletedFunc, OnCompletedFunc} from "@componentTypes/app";
 
 type TodoProp = {
@@ -13,14 +14,18 @@ type TodoProp = {
 
 export const Task: React.FC<TodoProp> = ({created, description, completed, onDeleted, id, onCompleted}) => {
 
+    let date = formatDistanceToNow(
+        new Date(created),
+        {includeSeconds: true}
+    )
+
     return (
         <div className="view">
             <input className="toggle" type="checkbox" checked={completed}></input>
             <label>
                 <span className="description"
-
                       onClick={() => onCompleted(id)}>{description}</span>
-                <span className="created"></span>
+                <span className="created">created {date} ago</span>
             </label>
             <button className="icon icon-edit"></button>
             <button className="icon icon-destroy"
