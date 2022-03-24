@@ -1,18 +1,20 @@
 import React, {Component} from "react";
 import './style.css';
-import {TodoItem} from "../todos";
-import Footer from "../footer";
-import NewTaskForm from "../newTaskForm";
-import TaskList from "../taskList";
 
-type TodosState = {
-    todos: Array<TodoItem>
+import {OnCompletedFunc} from "@componentTypes/app";
+import {TodoItem} from "@componentTypes/todos";
+import Footer from "components/footer";
+import NewTaskForm from "components/newTaskForm";
+import TaskList from "components/taskList";
+
+type AppState = {
+    todos: TodoItem[]
 }
 
 type TodosProps = {}
 
-export default class App extends Component<TodosProps, TodosState> {
-    state = {
+export default class App extends Component<TodosProps, AppState> {
+    state: AppState = {
         todos: [
             {
                 id: "1",
@@ -38,7 +40,7 @@ export default class App extends Component<TodosProps, TodosState> {
         ]
     }
 
-    onCompleted = (id: string) => {
+    onCompleted: OnCompletedFunc = (id) => {
         let newTodos = this.state.todos.map((item) => {
             if (item.id === id) {
                 item.completed = !item.completed;
@@ -46,7 +48,7 @@ export default class App extends Component<TodosProps, TodosState> {
             return item;
         });
 
-        return this.setState({
+        this.setState({
             todos: newTodos
         })
     }
