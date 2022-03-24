@@ -1,11 +1,13 @@
 import React, {Component} from "react";
 import './style.css';
 
-import {OnCompletedFunc, onDeletedFunc} from "@componentTypes/app";
+import {OnCompletedFunc, OnDeletedFunc, OnAddFunc} from "@componentTypes/app";
 import {TodoItem} from "@componentTypes/todos";
 import Footer from "components/footer";
 import NewTaskForm from "components/newTaskForm";
 import TaskList from "components/taskList";
+
+type CreateTaskFunc = (text: string) => TodoItem
 
 type AppState = {
     todos: TodoItem[]
@@ -40,6 +42,27 @@ export default class App extends Component<TodosProps, AppState> {
         ]
     }
 
+    createTask: CreateTaskFunc = (text) => {
+        return {
+            id: "4",
+            completed: false,
+            created: new Date(),
+            description: text,
+            editing: false
+        }
+    }
+
+    onAdd: OnAddFunc = (text) => {
+        let newTodos = this.state.todos;
+
+        newTodos.push(this.createTask(text))
+
+        this.setState({
+            todos: newTodos
+        })
+    }
+
+
     onCompleted: OnCompletedFunc = (id) => {
         let newTodos = this.state.todos.map((item) => {
             if (item.id === id) {
@@ -53,7 +76,7 @@ export default class App extends Component<TodosProps, AppState> {
         })
     }
 
-    onDeleted: onDeletedFunc = (id) => {
+    onDeleted: OnDeletedFunc = (id) => {
         let newTodos = this.state.todos.filter((item) => {
             return item.id !== id ? item : null;
         });
