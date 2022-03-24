@@ -3,7 +3,7 @@ import './style.css';
 import {format, formatDistanceToNow} from 'date-fns';
 import {OnDeletedFunc, OnCompletedFunc} from "@componentTypes/app";
 
-type TodoProp = {
+type TaskProps = {
     id: string
     created: Date
     description: string
@@ -12,7 +12,7 @@ type TodoProp = {
     onCompleted: OnCompletedFunc
 }
 
-export const Task: React.FC<TodoProp> = ({created, description, completed, onDeleted, id, onCompleted}) => {
+export const Task: React.FC<TaskProps> = ({created, description, completed, onDeleted, id, onCompleted}) => {
 
     let date = formatDistanceToNow(
         new Date(created),
