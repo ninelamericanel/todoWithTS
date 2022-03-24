@@ -6,4 +6,4 @@ export type OnAddFunc = (text: string) => void
 
 export type ClearCompleteFunc = () => void
 
-export type OnActiveFilterFunc = (name: string) => void
+export type OnSelectedFilter = (name: string) => void
