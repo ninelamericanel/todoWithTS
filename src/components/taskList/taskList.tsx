@@ -1,13 +1,13 @@
 import React from "react";
 import './style.css';
-import {OnCompletedFunc, onDeletedFunc} from "@componentTypes/app";
+import {OnCompletedFunc, OnDeletedFunc} from "@componentTypes/app";
 import {TodoItem} from "@componentTypes/todos";
 import Task from "components/task";
 
 type TodosProp = {
-    todos: TodoItem[],
-    onCompleted: OnCompletedFunc,
-    onDeleted: onDeletedFunc
+    todos: TodoItem[]
+    onCompleted: OnCompletedFunc
+    onDeleted: OnDeletedFunc
 }
 
 export const TaskList: React.FC<TodosProp> = ({todos, onCompleted, onDeleted}) => {

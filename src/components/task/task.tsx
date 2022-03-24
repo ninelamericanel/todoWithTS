@@ -1,13 +1,13 @@
 import React from "react";
 import './style.css';
-import {onDeletedFunc, OnCompletedFunc} from "@componentTypes/app";
+import {OnDeletedFunc, OnCompletedFunc} from "@componentTypes/app";
 
 type TodoProp = {
     id: string
-    created: Date,
-    description: string,
-    completed: boolean,
-    onDeleted: onDeletedFunc
+    created: Date
+    description: string
+    completed: boolean
+    onDeleted: OnDeletedFunc
     onCompleted: OnCompletedFunc
 }
 
