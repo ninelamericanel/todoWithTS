@@ -7,10 +7,11 @@ type TodoProp = {
     completed: boolean
 }
 
-export const Task = ({created, description, completed}: TodoProp) => {
+export const Task: React.FC<TodoProp> = ({created, description, completed}) => {
+
     return (
         <div className="view">
-            <input className="toggle" type="checkbox" defaultChecked={completed}></input>
+            <input className="toggle" type="checkbox" checked={completed}></input>
             <label>
                 <span className="description">{description}</span>
                 <span className="created"></span>
