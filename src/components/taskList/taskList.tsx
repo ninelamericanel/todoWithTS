@@ -1,15 +1,16 @@
 import React from "react";
 import './style.css';
-import {OnCompletedFunc} from "@componentTypes/app";
+import {OnCompletedFunc, onDeletedFunc} from "@componentTypes/app";
 import {TodoItem} from "@componentTypes/todos";
 import Task from "components/task";
 
 type TodosProp = {
     todos: TodoItem[],
-    onCompleted: OnCompletedFunc
+    onCompleted: OnCompletedFunc,
+    onDeleted: onDeletedFunc
 }
 
-export const TaskList: React.FC<TodosProp> = ({todos, onCompleted}) => {
+export const TaskList: React.FC<TodosProp> = ({todos, onCompleted, onDeleted}) => {
 
     let todosNodes = todos.map(item => {
         let {id, completed, editing, created, description} = item;
@@ -17,9 +18,13 @@ export const TaskList: React.FC<TodosProp> = ({todos, onCompleted}) => {
         let editingClass = editing ? 'editing' : null;
         return (
             <li className={completedClass || editingClass || undefined}
-                key={id}
-                onClick={() => onCompleted(id)}>
-                <Task created={created} description={description} completed={completed}/>
+                key={id}>
+                <Task created={created}
+                      description={description}
+                      completed={completed}
+                      onDeleted={onDeleted}
+                      onCompleted={onCompleted}
+                      id={id}/>
             </li>
         )
     })
