@@ -1,7 +1,14 @@
 import React, {Component} from "react";
 import './style.css';
 
-import {OnCompletedFunc, OnDeletedFunc, OnAddFunc, ClearCompleteFunc, OnSelectedFilterFunc, OnFilterTodosFunc} from "@componentTypes/app";
+import {
+    OnCompletedFunc,
+    OnDeletedFunc,
+    OnAddFunc,
+    ClearCompleteFunc,
+    OnSelectedFilterFunc,
+    OnFilterTodosFunc
+} from "@componentTypes/app";
 import {TodoItem, FilterBtns} from "@componentTypes/todos";
 import Footer from "components/footer";
 import NewTaskForm from "components/newTaskForm";
@@ -64,14 +71,11 @@ export default class App extends Component<TodosProps, AppState> {
 
     onAdd: OnAddFunc = (text) => {
         let newTodos = this.state.todos;
-
-        newTodos.push(this.createTask(text))
-
+        newTodos.push(this.createTask(text));
         this.setState({
             todos: newTodos
         })
     }
-
 
     onCompleted: OnCompletedFunc = (id) => {
         let newTodos = this.state.todos.map((item) => {
@@ -80,7 +84,6 @@ export default class App extends Component<TodosProps, AppState> {
             }
             return item;
         });
-
         this.setState({
             todos: newTodos
         })
@@ -90,7 +93,6 @@ export default class App extends Component<TodosProps, AppState> {
         let newTodos = this.state.todos.filter((item) => {
             return item.completed ? null : item;
         });
-
         this.setState({
             todos: newTodos
         })
@@ -100,7 +102,6 @@ export default class App extends Component<TodosProps, AppState> {
         let newTodos = this.state.todos.filter((item) => {
             return item.id !== id ? item : null;
         });
-
         this.setState({
             todos: newTodos
         })
@@ -144,6 +145,7 @@ export default class App extends Component<TodosProps, AppState> {
                               onDeleted={this.onDeleted}/>
                 </section>
                 <Footer
+                    todos={this.state.todos}
                     btns={this.state.filterBtns}
                     clearComplete={this.clearComplete}
                     onSelectedFilter={this.onSelectedFilter}
