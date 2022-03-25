@@ -21,21 +21,21 @@ export default class App extends Component<TodosProps, AppState> {
             {
                 id: "1",
                 completed: true,
-                created: new Date('December 17, 2021'),
+                created: new Date('Febrary 12, 2022'),
                 description: 'Completed task',
                 editing: false
             },
             {
                 id: "2",
                 completed: false,
-                created: new Date('December 23, 2022'),
+                created: new Date('March 24, 2022'),
                 description: 'Editing task',
-                editing: true
+                editing: false
             },
             {
                 id: "3",
                 completed: false,
-                created: new Date('December 25, 2022'),
+                created: new Date('March 21, 2022'),
                 description: 'Active task',
                 editing: false
             }
