@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import './style.css';
 
-import {OnCompletedFunc, OnDeletedFunc, OnAddFunc, ClearCompleteFunc, OnSelectedFilter} from "@componentTypes/app";
+import {OnCompletedFunc, OnDeletedFunc, OnAddFunc, ClearCompleteFunc, OnSelectedFilterFunc, OnFilterTodosFunc} from "@componentTypes/app";
 import {TodoItem, FilterBtns} from "@componentTypes/todos";
 import Footer from "components/footer";
 import NewTaskForm from "components/newTaskForm";
@@ -102,6 +102,20 @@ export default class App extends Component<TodosProps, AppState> {
         })
     }
 
+    onSelectedFilter: OnSelectedFilterFunc = (name) => {
+        let newBtns = this.state.filterBtns.map(btn => {
+            btn.name === name ? btn.selected = true : btn.selected = false;
+            return btn;
+        })
+        this.setState({
+            filterBtns: newBtns
+        })
+    }
+
+    onFilterTodos: OnFilterTodosFunc = (name) => {
+        console.log(name);
+    }
+
     render() {
         return (
             <section className="todoapp">
@@ -113,7 +127,9 @@ export default class App extends Component<TodosProps, AppState> {
                 </section>
                 <Footer
                     btns={this.state.filterBtns}
-                    clearComplete={this.clearComplete}/>
+                    clearComplete={this.clearComplete}
+                    onSelectedFilter={this.onSelectedFilter}
+                    onFilterTodos={this.onFilterTodos}/>
             </section>)
     }
 
