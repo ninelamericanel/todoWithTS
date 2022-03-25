@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import './style.css';
 
-import {OnCompletedFunc, OnDeletedFunc, OnAddFunc, ClearCompleteFunc} from "@componentTypes/app";
-import {TodoItem} from "@componentTypes/todos";
+import {OnCompletedFunc, OnDeletedFunc, OnAddFunc, ClearCompleteFunc, OnSelectedFilter} from "@componentTypes/app";
+import {TodoItem, FilterBtns} from "@componentTypes/todos";
 import Footer from "components/footer";
 import NewTaskForm from "components/newTaskForm";
 import TaskList from "components/taskList";
@@ -10,7 +10,8 @@ import TaskList from "components/taskList";
 type CreateTaskFunc = (text: string) => TodoItem
 
 type AppState = {
-    todos: TodoItem[]
+    todos: TodoItem[],
+    filterBtns: FilterBtns[]
 }
 
 type TodosProps = {}
@@ -39,6 +40,11 @@ export default class App extends Component<TodosProps, AppState> {
                 description: 'Active task',
                 editing: false
             }
+        ],
+        filterBtns: [
+            {name: 'All', selected: true},
+            {name: 'Active', selected: false},
+            {name: 'Completed', selected: false}
         ]
     }
 
@@ -106,8 +112,8 @@ export default class App extends Component<TodosProps, AppState> {
                               onDeleted={this.onDeleted}/>
                 </section>
                 <Footer
-
-                clearComplete={this.clearComplete}/>
+                    btns={this.state.filterBtns}
+                    clearComplete={this.clearComplete}/>
             </section>)
     }
 

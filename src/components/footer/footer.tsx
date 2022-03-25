@@ -1,24 +1,29 @@
 import {ClearCompleteFunc} from "@componentTypes/app";
+import {FilterBtns} from "@componentTypes/todos";
+import TaskFilter from "components/taskFilter";
 import React from "react";
 import './style.css';
 
 type FooterProps = {
+    btns: FilterBtns[]
     clearComplete: ClearCompleteFunc
 }
 
-export const Footer: React.FC<FooterProps> = ({clearComplete}) => {
+export const Footer: React.FC<FooterProps> = ({clearComplete, btns}) => {
+
+    let btnsArray = btns.map(item => {
+        let {name, selected} = item
+        return (
+            <li key={name}>
+                <TaskFilter name={name} selected={selected}/>
+            </li>
+        )
+    })
+
     return (<footer className="footer">
         <span className="todo-count">1 items left</span>
         <ul className="filters">
-            <li>
-                <button className="selected">All</button>
-            </li>
-            <li>
-                <button>Active</button>
-            </li>
-            <li>
-                <button>Completed</button>
-            </li>
+            {btnsArray}
         </ul>
         <button className="clear-completed"
                 onClick={() => clearComplete()}>
