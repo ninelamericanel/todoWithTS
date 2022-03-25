@@ -7,6 +7,8 @@ import './style.css';
 type FooterProps = {
     btns: FilterBtns[]
     clearComplete: ClearCompleteFunc
+    onSelectedFilter: OnSelectedFilterFunc
+    onFilterTodos: OnFilterTodosFunc
 }
 
 export const Footer: React.FC<FooterProps> = ({clearComplete, btns}) => {
