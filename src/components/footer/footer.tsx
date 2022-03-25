@@ -1,4 +1,4 @@
-import {ClearCompleteFunc} from "@componentTypes/app";
+import {ClearCompleteFunc, OnFilterTodosFunc, OnSelectedFilterFunc} from "@componentTypes/app";
 import {FilterBtns} from "@componentTypes/todos";
 import TaskFilter from "components/taskFilter";
 import React from "react";
@@ -11,13 +11,13 @@ type FooterProps = {
     onFilterTodos: OnFilterTodosFunc
 }
 
-export const Footer: React.FC<FooterProps> = ({clearComplete, btns}) => {
+export const Footer: React.FC<FooterProps> = ({clearComplete, btns, onSelectedFilter, onFilterTodos}) => {
 
     let btnsArray = btns.map(item => {
         let {name, selected} = item
         return (
             <li key={name}>
-                <TaskFilter name={name} selected={selected}/>
+                <TaskFilter name={name} selected={selected} onFilterTodos={onFilterTodos} onSelectedFilter={onSelectedFilter}/>
             </li>
         )
     })
