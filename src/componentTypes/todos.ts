@@ -4,6 +4,7 @@ export interface TodoItem {
     completed: boolean;
     editing: boolean;
     created: Date;
+    display: boolean
 }
 
 export interface FilterBtns {

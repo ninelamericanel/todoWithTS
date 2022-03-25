@@ -24,21 +24,24 @@ export default class App extends Component<TodosProps, AppState> {
                 completed: true,
                 created: new Date('Febrary 12, 2022'),
                 description: 'Completed task',
-                editing: false
+                editing: false,
+                display: true
             },
             {
                 id: "2",
                 completed: false,
                 created: new Date('March 24, 2022'),
                 description: 'Editing task',
-                editing: false
+                editing: false,
+                display: true
             },
             {
                 id: "3",
                 completed: false,
                 created: new Date('March 21, 2022'),
                 description: 'Active task',
-                editing: false
+                editing: false,
+                display: true
             }
         ],
         filterBtns: [
@@ -54,7 +57,8 @@ export default class App extends Component<TodosProps, AppState> {
             completed: false,
             created: new Date(),
             description: text,
-            editing: false
+            editing: false,
+            display: true
         }
     }
 
@@ -113,7 +117,21 @@ export default class App extends Component<TodosProps, AppState> {
     }
 
     onFilterTodos: OnFilterTodosFunc = (name) => {
-        console.log(name);
+        let allTodods = this.state.todos.map(item => {
+            if (name === 'Active') {
+                item.completed ? item.display = false : item.display = true;
+            } else if (name === 'Completed') {
+                item.completed ? item.display = true : item.display = false;
+            } else {
+                item.display = true;
+            }
+            return item;
+        })
+
+        this.setState({
+            todos: allTodods
+        })
+
     }
 
     render() {
