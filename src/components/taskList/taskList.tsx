@@ -13,11 +13,13 @@ type TodosProp = {
 export const TaskList: React.FC<TodosProp> = ({todos, onCompleted, onDeleted}) => {
 
     let todosNodes = todos.map(item => {
-        let {id, completed, editing, created, description} = item;
-        let completedClass = completed ? 'completed' : null;
-        let editingClass = editing ? 'editing' : null;
+        let {id, completed, editing, created, description, display} = item;
+        let classList = '';
+        if (completed) classList += 'completed';
+        if (!display) classList += ' display-none';
+        if (editing) classList = 'editing';
         return (
-            <li className={completedClass || editingClass || undefined}
+            <li className={classList}
                 key={id}>
                 <Task created={created}
                       description={description}
