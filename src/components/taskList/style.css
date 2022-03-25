@@ -19,6 +19,10 @@
     padding: 0;
 }
 
+.todo-list li.display-none {
+    display: none
+}
+
 .todo-list li.editing .edit {
     display: block;
     width: calc(100% - 43px);
