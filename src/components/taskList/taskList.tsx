@@ -1,39 +1,40 @@
-import React from "react";
+import React from 'react';
+
 import './style.css';
-import {OnCompletedFunc, OnDeletedFunc} from "@componentTypes/app";
-import {TodoItem} from "@componentTypes/todos";
-import Task from "components/task";
+import { OnCompletedFunc, OnDeletedFunc } from 'componentTypes/app';
+import { TodoItem } from 'componentTypes/todos';
+import Task from 'components/task';
 
 type TodosProp = {
-    todos: TodoItem[]
-    onCompleted: OnCompletedFunc
-    onDeleted: OnDeletedFunc
-}
+  todos: TodoItem[];
+  onCompleted: OnCompletedFunc;
+  onDeleted: OnDeletedFunc;
+};
 
-export const TaskList: React.FC<TodosProp> = ({todos, onCompleted, onDeleted}) => {
-
-    let todosNodes = todos.map(item => {
-        let {id, completed, editing, created, description, display} = item;
-        let classList = '';
-        if (completed) classList += 'completed';
-        if (!display) classList += ' display-none';
-        if (editing) classList = 'editing';
-        return (
-            <li className={classList}
-                key={id}>
-                <Task created={created}
-                      description={description}
-                      completed={completed}
-                      onDeleted={onDeleted}
-                      onCompleted={onCompleted}
-                      id={id}/>
-            </li>
-        )
-    })
-
+export const TaskList: React.FC<TodosProp> = ({ todos, onCompleted, onDeleted }) => {
+  let todosNodes = todos.map((item) => {
+    let { id, completed, editing, created, description, display } = item;
+    let classList = '';
+    if (completed) classList += 'completed';
+    if (!display) classList += ' display-none';
+    if (editing) classList = 'editing';
     return (
-        <section className="main">
-            <ul className="todo-list">{todosNodes}</ul>
-        </section>
-    )
-}
+      <li className={classList} key={id}>
+        <Task
+          created={created}
+          description={description}
+          completed={completed}
+          onDeleted={onDeleted}
+          onCompleted={onCompleted}
+          id={id}
+        />
+      </li>
+    );
+  });
+
+  return (
+    <section className="main">
+      <ul className="todo-list">{todosNodes}</ul>
+    </section>
+  );
+};
