@@ -72,7 +72,7 @@ export default class App extends Component<TodosProps, AppState> {
 
     findMaxId: FindMaxIdFunc = () => {
         let ids = this.state.todos.map(item => +item.id);
-        return (Math.max(...ids) + 1).toString();
+        return ids.length > 0 ? (Math.max(...ids) + 1).toString() : '1';
     }
 
     onAdd: OnAddFunc = (text) => {
