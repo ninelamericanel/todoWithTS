@@ -21,7 +21,10 @@ export const Task: React.FC<TaskProps> = ({created, description, completed, onDe
 
     return (
         <div className="view">
-            <input className="toggle" type="checkbox" checked={completed}></input>
+            <input className="toggle"
+                   type="checkbox"
+                   checked={completed}
+                   onChange={() => onCompleted(id)}></input>
             <label>
                 <span className="description"
                       onClick={() => onCompleted(id)}>{description}</span>
