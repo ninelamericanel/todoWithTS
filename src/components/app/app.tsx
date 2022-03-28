@@ -7,7 +7,8 @@ import {
     OnAddFunc,
     ClearCompleteFunc,
     OnSelectedFilterFunc,
-    OnFilterTodosFunc
+    OnFilterTodosFunc,
+    FindMaxIdFunc
 } from "@componentTypes/app";
 import {TodoItem, FilterBtns} from "@componentTypes/todos";
 import Footer from "components/footer";
@@ -60,13 +61,18 @@ export default class App extends Component<TodosProps, AppState> {
 
     createTask: CreateTaskFunc = (text) => {
         return {
-            id: "4",
+            id: this.findMaxId(),
             completed: false,
             created: new Date(),
             description: text,
             editing: false,
             display: true
         }
+    }
+
+    findMaxId: FindMaxIdFunc = () => {
+        let ids = this.state.todos.map(item => +item.id);
+        return (Math.max(...ids) + 1).toString();
     }
 
     onAdd: OnAddFunc = (text) => {
