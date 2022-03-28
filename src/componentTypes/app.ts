@@ -9,3 +9,5 @@ export type ClearCompleteFunc = () => void
 export type OnSelectedFilterFunc = (name: string) => void
 
 export type OnFilterTodosFunc = (name: string) => void
+
+export type FindMaxIdFunc = () => string
