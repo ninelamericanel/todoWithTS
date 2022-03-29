@@ -11,7 +11,7 @@ type TodosProp = {
   onDeleted: OnDeletedFunc;
 };
 
-export const TaskList: React.FC<TodosProp> = ({ todos, onCompleted, onDeleted }) => {
+const TaskList: React.FC<TodosProp> = ({ todos, onCompleted, onDeleted }) => {
   const todosNodes = todos.map((item) => {
     const { id, completed, editing, created, description, display } = item;
     let classList = '';
@@ -38,3 +38,5 @@ export const TaskList: React.FC<TodosProp> = ({ todos, onCompleted, onDeleted })
     </section>
   );
 };
+
+export default TaskList;
