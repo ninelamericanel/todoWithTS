@@ -71,12 +71,12 @@ export default class App extends Component<TodosProps, AppState> {
   };
 
   findMaxId: FindMaxIdFunc = () => {
-    let ids = this.state.todos.map((item) => +item.id);
+    const ids = this.state.todos.map((item) => +item.id);
     return ids.length > 0 ? (Math.max(...ids) + 1).toString() : '1';
   };
 
   onAdd: OnAddFunc = (text) => {
-    let newTodos = this.state.todos;
+    const newTodos = this.state.todos;
     newTodos.push(this.createTask(text));
     this.setState({
       todos: newTodos,
@@ -84,7 +84,7 @@ export default class App extends Component<TodosProps, AppState> {
   };
 
   onCompleted: OnCompletedFunc = (id) => {
-    let newTodos = this.state.todos.map((item) => {
+    const newTodos = this.state.todos.map((item) => {
       if (item.id === id) {
         item.completed = !item.completed;
       }
@@ -96,7 +96,7 @@ export default class App extends Component<TodosProps, AppState> {
   };
 
   clearComplete: ClearCompleteFunc = () => {
-    let newTodos = this.state.todos.filter((item) => {
+    const newTodos = this.state.todos.filter((item) => {
       return item.completed ? null : item;
     });
     this.setState({
@@ -105,7 +105,7 @@ export default class App extends Component<TodosProps, AppState> {
   };
 
   onDeleted: OnDeletedFunc = (id) => {
-    let newTodos = this.state.todos.filter((item) => {
+    const newTodos = this.state.todos.filter((item) => {
       return item.id !== id ? item : null;
     });
     this.setState({
@@ -114,7 +114,7 @@ export default class App extends Component<TodosProps, AppState> {
   };
 
   onSelectedFilter: OnSelectedFilterFunc = (name) => {
-    let newBtns = this.state.filterBtns.map((btn) => {
+    const newBtns = this.state.filterBtns.map((btn) => {
       btn.selected = btn.name === name; //!!!!!!!!!!!!!!!!!
       return btn;
     });
@@ -124,7 +124,7 @@ export default class App extends Component<TodosProps, AppState> {
   };
 
   onFilterTodos: OnFilterTodosFunc = (name) => {
-    let allTodods = this.state.todos.map((item) => {
+    const allTodods = this.state.todos.map((item) => {
       if (name === 'Active') {
         item.display = !item.completed; //!!!!!!!!!!!!!!!
       } else if (name === 'Completed') {
