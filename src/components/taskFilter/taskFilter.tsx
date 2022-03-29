@@ -13,7 +13,7 @@ type TaskFilterProps = {
 type HandleClick = (name: string) => void;
 
 export const TaskFilter: React.FC<TaskFilterProps> = ({ name, selected, onFilterTodos, onSelectedFilter }) => {
-  let classSelected = selected ? 'selected' : null;
+  const classSelected = selected ? 'selected' : null;
 
   const handleClick: HandleClick = (value) => {
     onSelectedFilter(value);

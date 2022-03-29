@@ -14,7 +14,7 @@ type TaskProps = {
 };
 
 export const Task: React.FC<TaskProps> = ({ created, description, completed, onDeleted, id, onCompleted }) => {
-  let date = formatDistanceToNow(new Date(created), { includeSeconds: true });
+  const date = formatDistanceToNow(new Date(created), { includeSeconds: true });
 
   return (
     <div className="view">

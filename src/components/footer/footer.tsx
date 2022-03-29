@@ -14,8 +14,8 @@ type FooterProps = {
 };
 
 export const Footer: React.FC<FooterProps> = ({ todos, clearComplete, btns, onSelectedFilter, onFilterTodos }) => {
-  let btnsArray = btns.map((item) => {
-    let { name, selected } = item;
+  const btnsArray = btns.map((item) => {
+    const { name, selected } = item;
     return (
       <li key={name}>
         <TaskFilter name={name} selected={selected} onFilterTodos={onFilterTodos} onSelectedFilter={onSelectedFilter} />
@@ -23,7 +23,7 @@ export const Footer: React.FC<FooterProps> = ({ todos, clearComplete, btns, onSe
     );
   });
 
-  let countLeft = todos.filter((item) => item.completed).length;
+  const countLeft = todos.filter((item) => item.completed).length;
 
   return (
     <footer className="footer">

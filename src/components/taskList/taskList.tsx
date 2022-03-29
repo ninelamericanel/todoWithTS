@@ -12,8 +12,8 @@ type TodosProp = {
 };
 
 export const TaskList: React.FC<TodosProp> = ({ todos, onCompleted, onDeleted }) => {
-  let todosNodes = todos.map((item) => {
-    let { id, completed, editing, created, description, display } = item;
+  const todosNodes = todos.map((item) => {
+    const { id, completed, editing, created, description, display } = item;
     let classList = '';
     if (completed) classList += 'completed';
     if (!display) classList += ' display-none';
