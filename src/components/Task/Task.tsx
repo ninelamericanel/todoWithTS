@@ -13,7 +13,7 @@ type TaskProps = {
   onCompleted: OnCompletedFunc;
 };
 
-export const Task: React.FC<TaskProps> = ({ created, description, completed, onDeleted, id, onCompleted }) => {
+const Task: React.FC<TaskProps> = ({ created, description, completed, onDeleted, id, onCompleted }) => {
   const date = formatDistanceToNow(new Date(created), { includeSeconds: true });
 
   return (
@@ -31,3 +31,5 @@ export const Task: React.FC<TaskProps> = ({ created, description, completed, onD
     // <input type="text" className="edit" value={description}></input>
   );
 };
+
+export default Task;

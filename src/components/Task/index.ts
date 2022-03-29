@@ -1,3 +1,1 @@
-import { Task } from './task';
-
-export default Task;
+export { default as Task } from './Task';
