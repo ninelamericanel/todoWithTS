@@ -1,5 +1,5 @@
 import React from 'react';
-import './style.css';
+import './Footer.scss';
 
 import { TaskFilter } from 'components/TaskFilter';
 import { ClearCompleteFunc, OnFilterTodosFunc, OnSelectedFilterFunc } from 'componentTypes/app';

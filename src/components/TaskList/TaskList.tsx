@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './style.css';
+import './TaskList.scss';
 import { OnCompletedFunc, OnDeletedFunc } from 'componentTypes/app';
 import { TodoItem } from 'componentTypes/todos';
 import { Task } from 'components/Task';
