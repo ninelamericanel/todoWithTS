@@ -1,3 +1,1 @@
-import { NewTaskForm } from './newTaskForm';
-
-export default NewTaskForm;
+export { default as NewTaskForm } from './NewTaskForm';

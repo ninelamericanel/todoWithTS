@@ -9,7 +9,7 @@ type NewTaskFormProps = {
 
 type HandleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => void;
 
-export const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAdd }) => {
+const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAdd }) => {
   const handleKeyDown: HandleKeyDown = (event) => {
     const { target } = event;
     if (event.key === 'Enter') {
@@ -24,3 +24,5 @@ export const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAdd }) => {
     </header>
   );
 };
+
+export default NewTaskForm;
