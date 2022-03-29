@@ -115,7 +115,7 @@ export default class App extends Component<TodosProps, AppState> {
 
   onSelectedFilter: OnSelectedFilterFunc = (name) => {
     const newBtns = this.state.filterBtns.map((btn) => {
-      btn.selected = btn.name === name; //!!!!!!!!!!!!!!!!!
+      btn.selected = btn.name === name;
       return btn;
     });
     this.setState({
@@ -126,9 +126,9 @@ export default class App extends Component<TodosProps, AppState> {
   onFilterTodos: OnFilterTodosFunc = (name) => {
     const allTodods = this.state.todos.map((item) => {
       if (name === 'Active') {
-        item.display = !item.completed; //!!!!!!!!!!!!!!!
+        item.display = !item.completed;
       } else if (name === 'Completed') {
-        item.display = item.completed; //!!!!!!!!!!!!!!!
+        item.display = item.completed;
       } else {
         item.display = true;
       }
