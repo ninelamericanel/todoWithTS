@@ -1,5 +1,5 @@
 import React from 'react';
-import './style.css';
+import './Task.scss';
 import { formatDistanceToNow } from 'date-fns';
 
 import { OnDeletedFunc, OnCompletedFunc } from 'componentTypes/app';
