@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './style.css';
+import './App.scss';
 
-import Footer from 'components/footer';
-import NewTaskForm from 'components/newTaskForm';
-import TaskList from 'components/taskList';
+import Footer from 'components/Footer';
+import NewTaskForm from 'components/NewTaskForm';
+import TaskList from 'components/TaskList';
 import { TodoItem, FilterBtns } from 'componentTypes/todos';
 import {
   OnCompletedFunc,
