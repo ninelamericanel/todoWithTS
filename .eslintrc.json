@@ -38,7 +38,12 @@
       "error",
       2
     ],
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     "linebreak-style": [
       0,
       "unix"
@@ -47,10 +52,10 @@
       "error",
       "single"
     ],
-//    "semi": [
-//      "error",
-//      "never"
-//    ],
+    //    "semi": [
+    //      "error",
+    //      "never"
+    //    ],
     "react/react-in-jsx-scope": "off",
     "react/prop-types": 0,
     "import/no-unresolved": [
@@ -84,14 +89,20 @@
         "newlines-between": "always"
       }
     ],
-    "prefer-const": ["error", {
-      "destructuring": "all",
-      "ignoreReadBeforeAssign": false
-    }]
+    "prefer-const": [
+      "error",
+      {
+        "destructuring": "all",
+        "ignoreReadBeforeAssign": false
+      }
+    ]
   },
   "settings": {
     "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
+      "@typescript-eslint/parser": [
+        ".ts",
+        ".tsx"
+      ]
     },
     "import/resolver": {
       "node": {
@@ -101,14 +112,20 @@
           ".ts",
           ".tsx"
         ],
-        "project": ["tsconfig.json", "package/tsconfig.json"],
+        "project": [
+          "tsconfig.json",
+          "package/tsconfig.json"
+        ],
         "moduleDirectory": [
           "node_modules",
           "src/"
         ]
       },
       "typescript": {
-        "project": ["tsconfig.json", "package/tsconfig.json"]
+        "project": [
+          "tsconfig.json",
+          "package/tsconfig.json"
+        ]
       }
     }
   }
