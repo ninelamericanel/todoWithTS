@@ -3,7 +3,7 @@ import React from 'react';
 import './style.css';
 import { OnCompletedFunc, OnDeletedFunc } from 'componentTypes/app';
 import { TodoItem } from 'componentTypes/todos';
-import Task from 'components/task';
+import { Task } from 'components/Task';
 
 type TodosProp = {
   todos: TodoItem[];
