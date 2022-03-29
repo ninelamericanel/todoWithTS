@@ -12,7 +12,7 @@ type TaskFilterProps = {
 
 type HandleClick = (name: string) => void;
 
-export const TaskFilter: React.FC<TaskFilterProps> = ({ name, selected, onFilterTodos, onSelectedFilter }) => {
+const TaskFilter: React.FC<TaskFilterProps> = ({ name, selected, onFilterTodos, onSelectedFilter }) => {
   const classSelected = selected ? 'selected' : null;
 
   const handleClick: HandleClick = (value) => {
@@ -26,3 +26,5 @@ export const TaskFilter: React.FC<TaskFilterProps> = ({ name, selected, onFilter
     </button>
   );
 };
+
+export default TaskFilter;

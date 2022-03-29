@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
 
-import TaskFilter from 'components/TaskFilter';
+import { TaskFilter } from 'components/TaskFilter';
 import { ClearCompleteFunc, OnFilterTodosFunc, OnSelectedFilterFunc } from 'componentTypes/app';
 import { FilterBtns, TodoItem } from 'componentTypes/todos';
 
