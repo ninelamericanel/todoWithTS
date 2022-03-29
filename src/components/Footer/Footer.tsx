@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
 
-import TaskFilter from 'components/taskFilter';
+import TaskFilter from 'components/TaskFilter';
 import { ClearCompleteFunc, OnFilterTodosFunc, OnSelectedFilterFunc } from 'componentTypes/app';
 import { FilterBtns, TodoItem } from 'componentTypes/todos';
 
@@ -13,7 +13,7 @@ type FooterProps = {
   onFilterTodos: OnFilterTodosFunc;
 };
 
-export const Footer: React.FC<FooterProps> = ({ todos, clearComplete, btns, onSelectedFilter, onFilterTodos }) => {
+const Footer: React.FC<FooterProps> = ({ todos, clearComplete, btns, onSelectedFilter, onFilterTodos }) => {
   const btnsArray = btns.map((item) => {
     const { name, selected } = item;
     return (
@@ -35,3 +35,5 @@ export const Footer: React.FC<FooterProps> = ({ todos, clearComplete, btns, onSe
     </footer>
   );
 };
+
+export default Footer;
