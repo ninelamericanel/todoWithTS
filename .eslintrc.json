@@ -81,7 +81,11 @@
         ],
         "newlines-between": "always"
       }
-    ]
+    ],
+    "prefer-const": ["error", {
+      "destructuring": "all",
+      "ignoreReadBeforeAssign": false
+    }]
   },
   "settings": {
     "import/parsers": {
