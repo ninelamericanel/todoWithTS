@@ -17,7 +17,6 @@ export const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAdd }) => {
       (target as HTMLButtonElement).value = '';
     }
   };
-
   return (
     <header className="header">
       <h1>todos</h1>
