@@ -21,7 +21,7 @@ const TaskFilter: React.FC<TaskFilterProps> = ({ name, selected, onFilterTodos, 
   };
 
   return (
-    <button className={classSelected || undefined} onClick={() => handleClick(name)} title={name}>
+    <button className={classSelected || undefined} onClick={() => handleClick(name)}>
       {name}
     </button>
   );
