@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { OnFilterTodosFunc, OnSelectedFilterFunc } from 'componentTypes/app';
+import { OnFilterTodosFunc, OnSelectedFilterFunc } from 'types/app';
 import './TaskFilter.scss';
 
 type TaskFilterProps = {

@@ -4,7 +4,7 @@ import './App.scss';
 import { Footer } from 'components/Footer';
 import { NewTaskForm } from 'components/NewTaskForm';
 import { TaskList } from 'components/TaskList';
-import { TodoItem, FilterBtns } from 'componentTypes/todos';
+import { TodoItem, FilterBtns } from 'types/todos';
 import {
   OnCompletedFunc,
   OnDeletedFunc,
@@ -13,7 +13,7 @@ import {
   OnSelectedFilterFunc,
   OnFilterTodosFunc,
   FindMaxIdFunc,
-} from 'componentTypes/app';
+} from 'types/app';
 
 type CreateTaskFunc = (text: string) => TodoItem;
 

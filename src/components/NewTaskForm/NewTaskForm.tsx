@@ -1,7 +1,7 @@
 import React from 'react';
 import './NewTaskForm.scss';
 
-import { OnAddFunc } from 'componentTypes/app';
+import { OnAddFunc } from 'types/app';
 
 type NewTaskFormProps = {
   onAdd: OnAddFunc;

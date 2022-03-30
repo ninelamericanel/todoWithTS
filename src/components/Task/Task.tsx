@@ -2,7 +2,7 @@ import React from 'react';
 import './Task.scss';
 import { formatDistanceToNow } from 'date-fns';
 
-import { OnDeletedFunc, OnCompletedFunc } from 'componentTypes/app';
+import { OnDeletedFunc, OnCompletedFunc } from 'types/app';
 
 type TaskProps = {
   id: string;

@@ -2,8 +2,8 @@ import React from 'react';
 import './Footer.scss';
 
 import { TaskFilter } from 'components/TaskFilter';
-import { ClearCompleteFunc, OnFilterTodosFunc, OnSelectedFilterFunc } from 'componentTypes/app';
-import { FilterBtns, TodoItem } from 'componentTypes/todos';
+import { ClearCompleteFunc, OnFilterTodosFunc, OnSelectedFilterFunc } from 'types/app';
+import { FilterBtns, TodoItem } from 'types/todos';
 
 type FooterProps = {
   todos: TodoItem[];

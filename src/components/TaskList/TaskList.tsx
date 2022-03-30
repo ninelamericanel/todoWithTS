@@ -1,8 +1,8 @@
 import React from 'react';
 
 import './TaskList.scss';
-import { OnCompletedFunc, OnDeletedFunc } from 'componentTypes/app';
-import { TodoItem } from 'componentTypes/todos';
+import { OnCompletedFunc, OnDeletedFunc } from 'types/app';
+import { TodoItem } from 'types/todos';
 import { Task } from 'components/Task';
 
 type TodosProp = {
