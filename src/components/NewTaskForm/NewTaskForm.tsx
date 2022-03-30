@@ -3,9 +3,9 @@ import './NewTaskForm.scss';
 
 import { OnAddFunc } from 'types/app';
 
-type NewTaskFormProps = {
+interface NewTaskFormProps {
   onAdd: OnAddFunc;
-};
+}
 
 type HandleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => void;
 

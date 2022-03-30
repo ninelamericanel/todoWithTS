@@ -23,7 +23,7 @@ type AppState = {
   filterButtons: FilterButtons[];
 };
 
-type TodosProps = {};
+interface TodosProps {}
 
 export default class App extends Component<TodosProps, AppState> {
   state: AppState = {

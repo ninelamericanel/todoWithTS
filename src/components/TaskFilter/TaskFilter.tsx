@@ -3,12 +3,12 @@ import React from 'react';
 import { OnFilterTodosFunc, OnSelectedFilterFunc } from 'types/app';
 import './TaskFilter.scss';
 
-type TaskFilterProps = {
+interface TaskFilterProps {
   name: string;
   selected: boolean;
   onSelectedFilter: OnSelectedFilterFunc;
   onFilterTodos: OnFilterTodosFunc;
-};
+}
 
 type HandleClick = (name: string) => void;
 

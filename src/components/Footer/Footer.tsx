@@ -5,13 +5,13 @@ import { TaskFilter } from 'components/TaskFilter';
 import { ClearCompleteFunc, OnFilterTodosFunc, OnSelectedFilterFunc } from 'types/app';
 import { FilterButtons, TodoItem } from 'types/todos';
 
-type FooterProps = {
+interface FooterProps {
   todos: TodoItem[];
   buttons: FilterButtons[];
   clearComplete: ClearCompleteFunc;
   onSelectedFilter: OnSelectedFilterFunc;
   onFilterTodos: OnFilterTodosFunc;
-};
+}
 
 const Footer: React.FC<FooterProps> = ({ todos, clearComplete, buttons, onSelectedFilter, onFilterTodos }) => {
   const buttonsArray = buttons.map((item) => {

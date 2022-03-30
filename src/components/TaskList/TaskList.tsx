@@ -5,12 +5,12 @@ import { OnCompletedFunc, OnDeletedFunc, OnEditingFunc } from 'types/app';
 import { TodoItem } from 'types/todos';
 import { Task } from 'components/Task';
 
-type TodosProp = {
+interface TodosProp {
   todos: TodoItem[];
   onCompleted: OnCompletedFunc;
   onDeleted: OnDeletedFunc;
   onEditing: OnEditingFunc;
-};
+}
 
 const TaskList: React.FC<TodosProp> = ({ todos, onCompleted, onDeleted, onEditing }) => {
   const todosNodes = todos.map((item) => {

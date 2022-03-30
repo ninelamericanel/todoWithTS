@@ -4,7 +4,7 @@ import { formatDistanceToNow } from 'date-fns';
 
 import { OnDeletedFunc, OnCompletedFunc, OnEditingFunc } from 'types/app';
 
-type TaskProps = {
+interface TaskProps {
   id: string;
   created: Date;
   description: string;
