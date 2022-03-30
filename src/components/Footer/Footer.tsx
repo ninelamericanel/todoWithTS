@@ -29,7 +29,7 @@ const Footer: React.FC<FooterProps> = ({ todos, clearComplete, buttons, onSelect
     <footer className="footer">
       <span className="todo-count">{countLeft} items left</span>
       <ul className="filters">{buttonsArray}</ul>
-      <button className="clear-completed" onClick={() => clearComplete()}>
+      <button className="clear-completed" title="clear completed" onClick={() => clearComplete()}>
         Clear completed
       </button>
     </footer>

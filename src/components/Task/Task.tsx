@@ -25,8 +25,8 @@ const Task: React.FC<TaskProps> = ({ created, description, completed, onDeleted,
         </span>
         <span className="created">created {date} ago</span>
       </label>
-      <button className="icon icon-edit"></button>
-      <button className="icon icon-destroy" onClick={() => onDeleted(id)}></button>
+      <button className="icon icon-edit" title="edit"></button>
+      <button className="icon icon-destroy" title="destroy" onClick={() => onDeleted(id)}></button>
     </div>
     // <input type="text" className="edit" value={description}></input>
   );
