@@ -12,8 +12,9 @@ type HandleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => void;
 const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAdd }) => {
   const handleKeyDown: HandleKeyDown = (event) => {
     const { target } = event;
-    if (event.key === 'Enter') {
-      onAdd((target as HTMLButtonElement).value);
+    const value = (target as HTMLButtonElement).value;
+    if (event.key === 'Enter' && value) {
+      onAdd(value);
       (target as HTMLButtonElement).value = '';
     }
   };
