@@ -3,6 +3,7 @@ export interface TodoItem {
   id: string;
   created: Date;
   status: string;
+  display: boolean;
 }
 
 export interface FilterButtons {

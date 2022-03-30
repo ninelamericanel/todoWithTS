@@ -15,7 +15,7 @@ type TaskProps = {
 
 const Task: React.FC<TaskProps> = ({ created, description, status, onDeleted, id, onCompleted }) => {
   const date = formatDistanceToNow(new Date(created), { includeSeconds: true });
-  const completed: boolean = status === 'completed' ? true : false;
+  const completed: boolean = status === 'completed';
   return (
     <div className="view">
       <input className="toggle" type="checkbox" checked={completed} onChange={() => onCompleted(id)}></input>
