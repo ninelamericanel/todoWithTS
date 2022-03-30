@@ -96,18 +96,14 @@ export default class App extends Component<TodosProps, AppState> {
   };
 
   clearComplete: ClearCompleteFunc = () => {
-    const newTodos = this.state.todos.filter((item) => {
-      return item.completed ? null : item;
-    });
+    const newTodos = this.state.todos.filter((item) => (!item.completed ? item : null));
     this.setState({
       todos: newTodos,
     });
   };
 
   onDeleted: OnDeletedFunc = (id) => {
-    const newTodos = this.state.todos.filter((item) => {
-      return item.id !== id ? item : null;
-    });
+    const newTodos = this.state.todos.filter((item) => (item.id !== id ? item : null));
     this.setState({
       todos: newTodos,
     });
