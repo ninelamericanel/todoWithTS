@@ -29,27 +29,21 @@ export default class App extends Component<TodosProps, AppState> {
     todos: [
       {
         id: '1',
-        completed: true,
         created: new Date(),
         description: 'Completed task',
-        editing: false,
-        display: true,
+        status: 'completed',
       },
       {
         id: '2',
-        completed: false,
         created: new Date(),
         description: 'Editing task',
-        editing: false,
-        display: true,
+        status: 'active',
       },
       {
         id: '3',
-        completed: false,
         created: new Date(),
         description: 'Active task',
-        editing: false,
-        display: true,
+        status: 'editing',
       },
     ],
     filterButtons: [
@@ -62,11 +56,9 @@ export default class App extends Component<TodosProps, AppState> {
   createTask: CreateTaskFunc = (text) => {
     return {
       id: this.findMaxId(),
-      completed: false,
       created: new Date(),
       description: text,
-      editing: false,
-      display: true,
+      status: 'active',
     };
   };
 
@@ -86,7 +78,7 @@ export default class App extends Component<TodosProps, AppState> {
   onCompleted: OnCompletedFunc = (id) => {
     const newTodos = this.state.todos.map((item) => {
       if (item.id === id) {
-        item.completed = !item.completed;
+        item.status = item.status === 'active' ? (item.status = 'completed') : (item.status = 'active');
       }
       return item;
     });
@@ -96,7 +88,7 @@ export default class App extends Component<TodosProps, AppState> {
   };
 
   clearComplete: ClearCompleteFunc = () => {
-    const newTodos = this.state.todos.filter((item) => (!item.completed ? item : null));
+    const newTodos = this.state.todos.filter((item) => (item.status === 'active' ? item : null));
     this.setState({
       todos: newTodos,
     });
@@ -120,19 +112,20 @@ export default class App extends Component<TodosProps, AppState> {
   };
 
   onFilterTodos: OnFilterTodosFunc = (name) => {
-    const allTodods = this.state.todos.map((item) => {
-      if (name === 'Active') {
-        item.display = !item.completed;
-      } else if (name === 'Completed') {
-        item.display = item.completed;
-      } else {
-        item.display = true;
-      }
-      return item;
-    });
-    this.setState({
-      todos: allTodods,
-    });
+    console.log(name);
+    // const allTodods = this.state.todos.map((item) => {
+    //   if (name === 'Active') {
+    //     item.display = !item.completed;
+    //   } else if (name === 'Completed') {
+    //     item.display = item.completed;
+    //   } else {
+    //     item.display = true;
+    //   }
+    //   return item;
+    // });
+    // this.setState({
+    //   todos: allTodods,
+    // });
   };
 
   render() {
