@@ -7,7 +7,7 @@ export interface TodoItem {
   display: boolean;
 }
 
-export interface FilterBtns {
+export interface FilterButtons {
   name: string;
   selected: boolean;
 }

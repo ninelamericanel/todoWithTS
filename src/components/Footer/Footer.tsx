@@ -3,18 +3,18 @@ import './Footer.scss';
 
 import { TaskFilter } from 'components/TaskFilter';
 import { ClearCompleteFunc, OnFilterTodosFunc, OnSelectedFilterFunc } from 'types/app';
-import { FilterBtns, TodoItem } from 'types/todos';
+import { FilterButtons, TodoItem } from 'types/todos';
 
 type FooterProps = {
   todos: TodoItem[];
-  btns: FilterBtns[];
+  buttons: FilterButtons[];
   clearComplete: ClearCompleteFunc;
   onSelectedFilter: OnSelectedFilterFunc;
   onFilterTodos: OnFilterTodosFunc;
 };
 
-const Footer: React.FC<FooterProps> = ({ todos, clearComplete, btns, onSelectedFilter, onFilterTodos }) => {
-  const btnsArray = btns.map((item) => {
+const Footer: React.FC<FooterProps> = ({ todos, clearComplete, buttons, onSelectedFilter, onFilterTodos }) => {
+  const buttonsArray = buttons.map((item) => {
     const { name, selected } = item;
     return (
       <li key={name}>
@@ -28,7 +28,7 @@ const Footer: React.FC<FooterProps> = ({ todos, clearComplete, btns, onSelectedF
   return (
     <footer className="footer">
       <span className="todo-count">{countLeft} items left</span>
-      <ul className="filters">{btnsArray}</ul>
+      <ul className="filters">{buttonsArray}</ul>
       <button className="clear-completed" onClick={() => clearComplete()}>
         Clear completed
       </button>

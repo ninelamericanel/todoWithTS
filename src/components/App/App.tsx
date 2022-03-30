@@ -4,7 +4,7 @@ import './App.scss';
 import { Footer } from 'components/Footer';
 import { NewTaskForm } from 'components/NewTaskForm';
 import { TaskList } from 'components/TaskList';
-import { TodoItem, FilterBtns } from 'types/todos';
+import { TodoItem, FilterButtons } from 'types/todos';
 import {
   OnCompletedFunc,
   OnDeletedFunc,
@@ -19,7 +19,7 @@ type CreateTaskFunc = (text: string) => TodoItem;
 
 type AppState = {
   todos: TodoItem[];
-  filterBtns: FilterBtns[];
+  filterButtons: FilterButtons[];
 };
 
 type TodosProps = {};
@@ -52,7 +52,7 @@ export default class App extends Component<TodosProps, AppState> {
         display: true,
       },
     ],
-    filterBtns: [
+    filterButtons: [
       { name: 'All', selected: true },
       { name: 'Active', selected: false },
       { name: 'Completed', selected: false },
@@ -110,12 +110,12 @@ export default class App extends Component<TodosProps, AppState> {
   };
 
   onSelectedFilter: OnSelectedFilterFunc = (name) => {
-    const newBtns = this.state.filterBtns.map((btn) => {
+    const newButtons = this.state.filterButtons.map((btn) => {
       btn.selected = btn.name === name;
       return btn;
     });
     this.setState({
-      filterBtns: newBtns,
+      filterButtons: newButtons,
     });
   };
 
@@ -144,7 +144,7 @@ export default class App extends Component<TodosProps, AppState> {
         </section>
         <Footer
           todos={this.state.todos}
-          btns={this.state.filterBtns}
+          buttons={this.state.filterButtons}
           clearComplete={this.clearComplete}
           onSelectedFilter={this.onSelectedFilter}
           onFilterTodos={this.onFilterTodos}
