@@ -13,3 +13,5 @@ export type OnFilterTodosFunc = (name: string) => void;
 export type FindMaxIdFunc = () => string;
 
 export type OnEditingFunc = (id: string) => void;
+
+export type EditingTaskFunc = (value: string, id: string) => void;

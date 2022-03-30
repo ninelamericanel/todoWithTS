@@ -14,6 +14,7 @@ import {
   OnFilterTodosFunc,
   FindMaxIdFunc,
   OnEditingFunc,
+  EditingTaskFunc,
 } from 'types/app';
 
 type CreateTaskFunc = (text: string) => TodoItem;
@@ -118,6 +119,21 @@ export default class App extends Component<TodosProps, AppState> {
     });
   };
 
+  editingTask: EditingTaskFunc = (value, id) => {
+    const newArray = this.state.todos.map((item) => {
+      if (item.id === id) {
+        item.description = value;
+        item.status = 'active';
+        item.created = new Date();
+      }
+      return item;
+    });
+
+    this.setState({
+      todos: newArray,
+    });
+  };
+
   onSelectedFilter: OnSelectedFilterFunc = (name) => {
     const newButtons = this.state.filterButtons.map((btn) => {
       btn.selected = btn.name === name;
@@ -154,6 +170,7 @@ export default class App extends Component<TodosProps, AppState> {
             onEditing={this.onEditing}
             onCompleted={this.onCompleted}
             onDeleted={this.onDeleted}
+            editingTask={this.editingTask}
           />
         </section>
         <Footer

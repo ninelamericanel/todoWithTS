@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './TaskList.scss';
-import { OnCompletedFunc, OnDeletedFunc, OnEditingFunc } from 'types/app';
+import { EditingTaskFunc, OnCompletedFunc, OnDeletedFunc, OnEditingFunc } from 'types/app';
 import { TodoItem } from 'types/todos';
 import { Task } from 'components/Task';
 
@@ -10,9 +10,10 @@ interface TodosProp {
   onCompleted: OnCompletedFunc;
   onDeleted: OnDeletedFunc;
   onEditing: OnEditingFunc;
+  editingTask: EditingTaskFunc;
 }
 
-const TaskList: React.FC<TodosProp> = ({ todos, onCompleted, onDeleted, onEditing }) => {
+const TaskList: React.FC<TodosProp> = ({ todos, onCompleted, onDeleted, onEditing, editingTask }) => {
   const todosNodes = todos.map((item) => {
     const { id, created, description, status, display } = item;
     let classList = '';
@@ -28,6 +29,7 @@ const TaskList: React.FC<TodosProp> = ({ todos, onCompleted, onDeleted, onEditin
           status={status}
           onDeleted={onDeleted}
           onCompleted={onCompleted}
+          editingTask={editingTask}
           id={id}
         />
       </li>
