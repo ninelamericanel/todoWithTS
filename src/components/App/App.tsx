@@ -94,7 +94,7 @@ export default class App extends Component<TodosProps, AppState> {
   };
 
   clearComplete: ClearCompleteFunc = () => {
-    const newTodos = this.state.todos.filter((item) => (item.status === 'active' ? item : null));
+    const newTodos = this.state.todos.filter((item) => (item.status === ('active' || 'editing') ? item : null));
     this.setState({
       todos: newTodos,
     });
