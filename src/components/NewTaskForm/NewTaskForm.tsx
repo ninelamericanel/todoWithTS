@@ -13,7 +13,7 @@ const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAdd }) => {
   const handleKeyDown: HandleKeyDown = (event) => {
     const { target } = event;
     const value = (target as HTMLButtonElement).value;
-    if (event.key === 'Enter' && value) {
+    if (event.key === 'Enter' && value.trim()) {
       onAdd(value);
       (target as HTMLButtonElement).value = '';
     }
