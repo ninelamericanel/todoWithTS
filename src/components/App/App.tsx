@@ -47,7 +47,7 @@ export default class App extends Component<TodosProps, AppState> {
         id: '3',
         created: new Date(),
         description: 'Active task',
-        status: 'editing',
+        status: 'active',
         display: true,
       },
     ],
