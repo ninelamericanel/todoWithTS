@@ -19,7 +19,7 @@ const EditInput: React.FC<EditInputProps> = ({ description, editingTask, id }) =
     if (inputElement.current) {
       inputElement.current.focus();
     }
-  }, []);
+  }, [inputElement.current]);
 
   const handleChange: HandleChange = (event) => {
     const { target } = event;
