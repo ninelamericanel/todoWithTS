@@ -15,9 +15,10 @@ import {
   FindMaxIdFunc,
   OnEditingFunc,
   EditingTaskFunc,
+  TimerFormatFunc,
 } from 'types/app';
 
-type CreateTaskFunc = (text: string) => TodoItem;
+type CreateTaskFunc = (text: string, min: string, sec: string) => TodoItem;
 
 type AppState = {
   todos: TodoItem[];
@@ -58,7 +59,7 @@ export default class App extends Component<TodosProps, AppState> {
     ],
   };
 
-  createTask: CreateTaskFunc = (text) => {
+  createTask: CreateTaskFunc = (text, min, sec) => {
     return {
       id: this.findMaxId(),
       created: new Date(),
@@ -73,7 +74,9 @@ export default class App extends Component<TodosProps, AppState> {
     return ids.length > 0 ? (Math.max(...ids) + 1).toString() : '1';
   };
 
-  onAdd: OnAddFunc = (text) => {
+  timerFormat: TimerFormatFunc = (num) => (num < 10 ? '0' + num : num.toString());
+
+  onAdd: OnAddFunc = (name, min, sec) => {
     const newTodos = this.state.todos;
     newTodos.push(this.createTask(text));
     this.setState({
