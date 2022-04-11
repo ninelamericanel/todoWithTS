@@ -21,7 +21,11 @@ const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAdd }) => {
   return (
     <header className="header">
       <h1>todos</h1>
-      <input className="new-todo" onKeyUp={handleKeyDown} placeholder="What needs to be done?" autoFocus></input>
+      <form className="new-todo-form">
+        <input className="new-todo" onKeyUp={handleKeyDown} placeholder="What needs to be done?" autoFocus></input>
+        <input className="new-todo-form__timer" placeholder="Min" autoFocus></input>
+        <input className="new-todo-form__timer" placeholder="Sec" autoFocus></input>
+      </form>
     </header>
   );
 };
