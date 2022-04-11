@@ -15,7 +15,7 @@ const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAdd }) => {
   const [min, setMin] = useState('');
   const [sec, setSec] = useState('');
   const handleKeyUp: HandleKeyUpFunc = (event) => {
-    if (event.key === 'Enter' && name.trim() && min.trim() && sec.trim()) {
+    if (event.key === 'Enter' && name.trim()) {
       onAdd(name, min, sec);
       setName('');
       setMin('');
