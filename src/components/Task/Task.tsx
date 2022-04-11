@@ -37,10 +37,15 @@ const Task: React.FC<TaskProps> = ({
       <div className="view">
         <input className="toggle" type="checkbox" checked={completed} onChange={() => onCompleted(id)}></input>
         <label>
-          <span className="description" onClick={() => onCompleted(id)}>
+          <span className="title" onClick={() => onCompleted(id)}>
             {description}
           </span>
-          <span className="created">created {date} ago</span>
+          <span className="description">
+            <button className="icon icon-play"></button>
+            <button className="icon icon-pause"></button>
+            12:25
+          </span>
+          <span className="description">created {date} ago</span>
         </label>
         <button className="icon icon-edit" title="edit" onClick={() => onEditing(id)}></button>
         <button className="icon icon-destroy" title="destroy" onClick={() => onDeleted(id)}></button>
