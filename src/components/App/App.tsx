@@ -36,6 +36,10 @@ export default class App extends Component<TodosProps, AppState> {
         description: 'Completed task',
         status: 'completed',
         display: true,
+        timer: {
+          min: '02',
+          sec: '02',
+        },
       },
       {
         id: '2',
@@ -43,6 +47,10 @@ export default class App extends Component<TodosProps, AppState> {
         description: 'Editing task',
         status: 'active',
         display: true,
+        timer: {
+          min: '02',
+          sec: '02',
+        },
       },
       {
         id: '3',
@@ -50,6 +58,10 @@ export default class App extends Component<TodosProps, AppState> {
         description: 'Active task',
         status: 'active',
         display: true,
+        timer: {
+          min: '02',
+          sec: '02',
+        },
       },
     ],
     filterButtons: [
@@ -66,6 +78,10 @@ export default class App extends Component<TodosProps, AppState> {
       description: text,
       status: 'active',
       display: true,
+      timer: {
+        min: min,
+        sec: sec,
+      },
     };
   };
 
@@ -78,7 +94,7 @@ export default class App extends Component<TodosProps, AppState> {
 
   onAdd: OnAddFunc = (name, min, sec) => {
     const newTodos = this.state.todos;
-    newTodos.push(this.createTask(text));
+    newTodos.push(this.createTask(name, min, sec));
     this.setState({
       todos: newTodos,
     });
