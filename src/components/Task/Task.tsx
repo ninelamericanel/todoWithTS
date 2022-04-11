@@ -15,6 +15,7 @@ interface TaskProps {
   onCompleted: OnCompletedFunc;
   onEditing: OnEditingFunc;
   editingTask: EditingTaskFunc;
+  timer: { min: string; sec: string };
 }
 
 const Task: React.FC<TaskProps> = ({
@@ -26,6 +27,7 @@ const Task: React.FC<TaskProps> = ({
   onEditing,
   id,
   onCompleted,
+  timer: { min, sec },
 }) => {
   const date = formatDistanceToNow(new Date(created), { includeSeconds: true });
   const completed: boolean = status === 'completed';
@@ -43,7 +45,7 @@ const Task: React.FC<TaskProps> = ({
           <span className="description">
             <button className="icon icon-play"></button>
             <button className="icon icon-pause"></button>
-            12:25
+            {min}:{sec}
           </span>
           <span className="description">created {date} ago</span>
         </label>

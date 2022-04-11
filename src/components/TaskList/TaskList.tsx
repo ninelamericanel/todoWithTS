@@ -15,7 +15,7 @@ interface TodosProp {
 
 const TaskList: React.FC<TodosProp> = ({ todos, onCompleted, onDeleted, onEditing, editingTask }) => {
   const todosNodes = todos.map((item) => {
-    const { id, created, description, status, display } = item;
+    const { id, created, description, status, display, timer } = item;
     let classList = '';
     if (status === 'completed') classList += 'completed';
     if (!display) classList += ' display-none';
@@ -31,6 +31,7 @@ const TaskList: React.FC<TodosProp> = ({ todos, onCompleted, onDeleted, onEditin
           onCompleted={onCompleted}
           editingTask={editingTask}
           id={id}
+          timer={timer}
         />
       </li>
     );
