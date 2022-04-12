@@ -106,14 +106,20 @@
   font-size: 18px;
   width: 18px;
   height: 18px;
+  margin-right: 5px;
 }
 
 .todo-list li .icon-play {
   font-size: 15px;
 }
 
+.todo-list li .icon-pause {
+  font-size: 15px;
+}
+
 .icon-pause:after {
   content: '⏸';
+
 }
 
 .icon-play:after {
