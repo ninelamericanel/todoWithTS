@@ -17,3 +17,5 @@ export type OnEditingFunc = (id: string) => void;
 export type EditingTaskFunc = (value: string, id: string) => void;
 
 export type TimerFormatFunc = (num: number) => string;
+
+export type OnChangeTimerFunc = (min: string, sec: string, id: string) => void;

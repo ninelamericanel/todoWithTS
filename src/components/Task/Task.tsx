@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Task.scss';
 import { formatDistanceToNow } from 'date-fns';
 
-import { OnDeletedFunc, OnCompletedFunc, OnEditingFunc, EditingTaskFunc } from 'types/app';
+import {
+  OnDeletedFunc,
+  OnCompletedFunc,
+  OnEditingFunc,
+  EditingTaskFunc,
+  TimerFormatFunc,
+  OnChangeTimerFunc,
+} from 'types/app';
 
 import { EditInput } from '../EditInput';
+import { Timer } from '../Timer';
 
 interface TaskProps {
   id: string;
@@ -16,7 +24,12 @@ interface TaskProps {
   onEditing: OnEditingFunc;
   editingTask: EditingTaskFunc;
   timer: { min: string; sec: string };
+  timerFormat: TimerFormatFunc;
+  onChangeTimer: OnChangeTimerFunc;
 }
+
+export type TurnOnTimerFunc = () => void;
+type DisabledButtonPlayFunc = () => boolean;
 
 const Task: React.FC<TaskProps> = ({
   created,
@@ -28,11 +41,37 @@ const Task: React.FC<TaskProps> = ({
   id,
   onCompleted,
   timer: { min, sec },
+  timerFormat,
+  onChangeTimer,
 }) => {
+  const [play, setPlay] = useState(false);
   const date = formatDistanceToNow(new Date(created), { includeSeconds: true });
   const completed: boolean = status === 'completed';
   const editing =
     status === 'editing' ? <EditInput id={id} description={description} editingTask={editingTask} /> : null;
+  const turnOnTimer: TurnOnTimerFunc = () => {
+    setPlay(false);
+    onCompleted(id);
+  };
+  const disabledButtonPlay: DisabledButtonPlayFunc = () => (min === '00' && sec === '00') || completed;
+  const timer = play ? (
+    <>
+      <button onClick={() => setPlay(false)} className="icon icon-pause"></button>
+      <Timer
+        id={id}
+        turnOnTimer={turnOnTimer}
+        min={min}
+        sec={sec}
+        timerFormat={timerFormat}
+        onChangeTimer={onChangeTimer}
+      />
+    </>
+  ) : (
+    <>
+      <button onClick={() => setPlay(true)} disabled={disabledButtonPlay()} className="icon icon-play"></button>
+      {min}:{sec}
+    </>
+  );
 
   return (
     <>
@@ -42,11 +81,7 @@ const Task: React.FC<TaskProps> = ({
           <span className="title" onClick={() => onCompleted(id)}>
             {description}
           </span>
-          <span className="description">
-            <button className="icon icon-play"></button>
-            <button className="icon icon-pause"></button>
-            {min}:{sec}
-          </span>
+          <span className="description">{timer}</span>
           <span className="description">created {date} ago</span>
         </div>
         <button className="icon icon-edit" title="edit" onClick={() => onEditing(id)}></button>

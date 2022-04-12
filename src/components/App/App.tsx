@@ -16,6 +16,7 @@ import {
   OnEditingFunc,
   EditingTaskFunc,
   TimerFormatFunc,
+  OnChangeTimerFunc,
 } from 'types/app';
 
 type CreateTaskFunc = (text: string, min: string, sec: string) => TodoItem;
@@ -37,8 +38,8 @@ export default class App extends Component<TodosProps, AppState> {
         status: 'completed',
         display: true,
         timer: {
-          min: '02',
-          sec: '02',
+          min: '00',
+          sec: '04',
         },
       },
       {
@@ -79,8 +80,8 @@ export default class App extends Component<TodosProps, AppState> {
       status: 'active',
       display: true,
       timer: {
-        min: min,
-        sec: sec,
+        min: this.timerFormat(+min),
+        sec: this.timerFormat(+sec),
       },
     };
   };
@@ -138,6 +139,19 @@ export default class App extends Component<TodosProps, AppState> {
     });
   };
 
+  onChangeTimer: OnChangeTimerFunc = (newMin, newSec, id) => {
+    const newArray = this.state.todos.map((item) => {
+      if (item.id === id) {
+        item.timer.min = newMin;
+        item.timer.sec = newSec;
+      }
+      return item;
+    });
+    this.setState({
+      todos: newArray,
+    });
+  };
+
   editingTask: EditingTaskFunc = (value, id) => {
     const newArray = this.state.todos.map((item) => {
       if (item.id === id) {
@@ -190,6 +204,8 @@ export default class App extends Component<TodosProps, AppState> {
             onCompleted={this.onCompleted}
             onDeleted={this.onDeleted}
             editingTask={this.editingTask}
+            timerFormat={this.timerFormat}
+            onChangeTimer={this.onChangeTimer}
           />
         </section>
         <Footer
