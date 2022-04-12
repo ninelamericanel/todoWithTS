@@ -47,31 +47,32 @@ const Task: React.FC<TaskProps> = ({
   const [play, setPlay] = useState(false);
   const date = formatDistanceToNow(new Date(created), { includeSeconds: true });
   const completed: boolean = status === 'completed';
-  const editing =
-    status === 'editing' ? <EditInput id={id} description={description} editingTask={editingTask} /> : null;
   const turnOnTimer: TurnOnTimerFunc = () => {
     setPlay(false);
     onCompleted(id);
   };
   const disabledButtonPlay: DisabledButtonPlayFunc = () => (min === '00' && sec === '00') || completed;
-  const timer = play ? (
-    <>
-      <button onClick={() => setPlay(false)} className="icon icon-pause"></button>
-      <Timer
-        id={id}
-        turnOnTimer={turnOnTimer}
-        min={min}
-        sec={sec}
-        timerFormat={timerFormat}
-        onChangeTimer={onChangeTimer}
-      />
-    </>
-  ) : (
-    <>
-      <button onClick={() => setPlay(true)} disabled={disabledButtonPlay()} className="icon icon-play"></button>
-      {min}:{sec}
-    </>
-  );
+  const editing =
+    status === 'editing' ? <EditInput id={id} description={description} editingTask={editingTask} /> : null;
+  const timer =
+    play && !completed ? (
+      <>
+        <button onClick={() => setPlay(false)} className="icon icon-pause"></button>
+        <Timer
+          id={id}
+          turnOnTimer={turnOnTimer}
+          min={min}
+          sec={sec}
+          timerFormat={timerFormat}
+          onChangeTimer={onChangeTimer}
+        />
+      </>
+    ) : (
+      <>
+        <button onClick={() => setPlay(true)} disabled={disabledButtonPlay()} className="icon icon-play"></button>
+        {min}:{sec}
+      </>
+    );
 
   return (
     <>
