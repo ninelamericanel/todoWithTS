@@ -9,26 +9,28 @@ interface NewTaskFormProps {
 
 type HandleKeyUpFunc = (event: React.KeyboardEvent<HTMLFormElement>) => void;
 type HandleChangeFunc = (event: React.ChangeEvent<HTMLFormElement>) => void;
+type ResetFormFunc = () => void;
 
 const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAdd }) => {
   const [name, setName] = useState('');
   const [min, setMin] = useState('');
   const [sec, setSec] = useState('');
+  const resetForm: ResetFormFunc = () => {
+    setName('');
+    setMin('');
+    setSec('');
+  };
   const handleKeyUp: HandleKeyUpFunc = (event) => {
     if (event.key === 'Enter' && name.trim()) {
       onAdd(name, min, sec);
-      setName('');
-      setMin('');
-      setSec('');
+      resetForm();
     }
   };
   const handleChange: HandleChangeFunc = (event) => {
     const { target } = event;
-    if (target.value.trim()) {
-      if (target?.dataset.action === 'task-name') setName(target.value);
-      if (target?.dataset.action === 'task-min') setMin(target.value);
-      if (target?.dataset.action === 'task-sec') setSec(target.value);
-    }
+    if (target?.dataset.action === 'task-name') setName(target.value);
+    if (target?.dataset.action === 'task-min' && (+target.value || target.value === '')) setMin(target.value);
+    if (target?.dataset.action === 'task-sec' && (+target.value || target.value === '')) setSec(target.value);
   };
   return (
     <header className="header">
