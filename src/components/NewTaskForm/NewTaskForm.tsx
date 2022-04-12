@@ -8,7 +8,7 @@ interface NewTaskFormProps {
 }
 
 type HandleKeyUpFunc = (event: React.KeyboardEvent<HTMLFormElement>) => void;
-type HandleChangeFunc = (event: React.ChangeEvent<HTMLFormElement>) => void;
+type HandleChangeFunc = (event: React.ChangeEvent<HTMLInputElement>) => void;
 type ResetFormFunc = () => void;
 
 const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAdd }) => {
@@ -35,16 +35,31 @@ const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAdd }) => {
   return (
     <header className="header">
       <h1>todos</h1>
-      <form className="new-todo-form" onChange={handleChange} onKeyUp={handleKeyUp}>
+      <form className="new-todo-form" onKeyUp={handleKeyUp}>
         <input
+          onChange={handleChange}
           data-action="task-name"
           value={name}
           className="new-todo"
           placeholder="What needs to be done?"
           autoFocus
         ></input>
-        <input data-action="task-min" value={min} className="new-todo-form__timer" placeholder="Min" autoFocus></input>
-        <input data-action="task-sec" value={sec} className="new-todo-form__timer" placeholder="Sec" autoFocus></input>
+        <input
+          onChange={handleChange}
+          data-action="task-min"
+          value={min}
+          className="new-todo-form__timer"
+          placeholder="Min"
+          autoFocus
+        ></input>
+        <input
+          onChange={handleChange}
+          data-action="task-sec"
+          value={sec}
+          className="new-todo-form__timer"
+          placeholder="Sec"
+          autoFocus
+        ></input>
       </form>
     </header>
   );
