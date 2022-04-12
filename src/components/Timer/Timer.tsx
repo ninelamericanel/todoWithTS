@@ -27,16 +27,16 @@ export default class Timer extends Component<TimerProps, TimerState> {
     timerSec: this.props.sec,
   };
 
+  private interval: NodeJS.Timer | undefined;
+
   componentDidMount() {
-    // @ts-ignore
     this.interval = setInterval(() => this.countDown(), 1000);
   }
 
   componentWillUnmount() {
     const { id, onChangeTimer } = this.props;
     onChangeTimer(this.state.timerMin, this.state.timerSec, id);
-    // @ts-ignore
-    clearInterval(this.interval);
+    clearInterval(this.interval as NodeJS.Timeout);
   }
 
   countDown: CountDownFunc = () => {
