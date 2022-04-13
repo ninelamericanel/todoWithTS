@@ -15,9 +15,11 @@ import {
   FindMaxIdFunc,
   OnEditingFunc,
   EditingTaskFunc,
+  TimerFormatFunc,
+  OnChangeTimerFunc,
 } from 'types/app';
 
-type CreateTaskFunc = (text: string) => TodoItem;
+type CreateTaskFunc = (text: string, min: string, sec: string) => TodoItem;
 
 type AppState = {
   todos: TodoItem[];
@@ -35,6 +37,10 @@ export default class App extends Component<TodosProps, AppState> {
         description: 'Completed task',
         status: 'completed',
         display: true,
+        timer: {
+          min: '00',
+          sec: '04',
+        },
       },
       {
         id: '2',
@@ -42,6 +48,10 @@ export default class App extends Component<TodosProps, AppState> {
         description: 'Editing task',
         status: 'active',
         display: true,
+        timer: {
+          min: '02',
+          sec: '02',
+        },
       },
       {
         id: '3',
@@ -49,6 +59,10 @@ export default class App extends Component<TodosProps, AppState> {
         description: 'Active task',
         status: 'active',
         display: true,
+        timer: {
+          min: '02',
+          sec: '02',
+        },
       },
     ],
     filterButtons: [
@@ -58,13 +72,17 @@ export default class App extends Component<TodosProps, AppState> {
     ],
   };
 
-  createTask: CreateTaskFunc = (text) => {
+  createTask: CreateTaskFunc = (text, min, sec) => {
     return {
       id: this.findMaxId(),
       created: new Date(),
       description: text,
       status: 'active',
       display: true,
+      timer: {
+        min: this.timerFormat(+min),
+        sec: this.timerFormat(+sec),
+      },
     };
   };
 
@@ -73,9 +91,11 @@ export default class App extends Component<TodosProps, AppState> {
     return ids.length > 0 ? (Math.max(...ids) + 1).toString() : '1';
   };
 
-  onAdd: OnAddFunc = (text) => {
+  timerFormat: TimerFormatFunc = (num) => (num < 10 ? '0' + num : num.toString());
+
+  onAdd: OnAddFunc = (name, min, sec) => {
     const newTodos = this.state.todos;
-    newTodos.push(this.createTask(text));
+    newTodos.push(this.createTask(name, min, sec));
     this.setState({
       todos: newTodos,
     });
@@ -116,6 +136,19 @@ export default class App extends Component<TodosProps, AppState> {
     });
     this.setState({
       todos: newTodos,
+    });
+  };
+
+  onChangeTimer: OnChangeTimerFunc = (newMin, newSec, id) => {
+    const newArray = this.state.todos.map((item) => {
+      if (item.id === id) {
+        item.timer.min = newMin;
+        item.timer.sec = newSec;
+      }
+      return item;
+    });
+    this.setState({
+      todos: newArray,
     });
   };
 
@@ -171,6 +204,8 @@ export default class App extends Component<TodosProps, AppState> {
             onCompleted={this.onCompleted}
             onDeleted={this.onDeleted}
             editingTask={this.editingTask}
+            timerFormat={this.timerFormat}
+            onChangeTimer={this.onChangeTimer}
           />
         </section>
         <Footer

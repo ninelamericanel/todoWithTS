@@ -4,6 +4,10 @@ export interface TodoItem {
   created: Date;
   status: string;
   display: boolean;
+  timer: {
+    min: string;
+    sec: string;
+  };
 }
 
 export interface FilterButtons {

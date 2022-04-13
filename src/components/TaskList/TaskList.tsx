@@ -1,7 +1,14 @@
 import React from 'react';
 
 import './TaskList.scss';
-import { EditingTaskFunc, OnCompletedFunc, OnDeletedFunc, OnEditingFunc } from 'types/app';
+import {
+  EditingTaskFunc,
+  OnChangeTimerFunc,
+  OnCompletedFunc,
+  OnDeletedFunc,
+  OnEditingFunc,
+  TimerFormatFunc,
+} from 'types/app';
 import { TodoItem } from 'types/todos';
 import { Task } from 'components/Task';
 
@@ -11,11 +18,21 @@ interface TodosProp {
   onDeleted: OnDeletedFunc;
   onEditing: OnEditingFunc;
   editingTask: EditingTaskFunc;
+  timerFormat: TimerFormatFunc;
+  onChangeTimer: OnChangeTimerFunc;
 }
 
-const TaskList: React.FC<TodosProp> = ({ todos, onCompleted, onDeleted, onEditing, editingTask }) => {
+const TaskList: React.FC<TodosProp> = ({
+  onChangeTimer,
+  todos,
+  onCompleted,
+  onDeleted,
+  onEditing,
+  editingTask,
+  timerFormat,
+}) => {
   const todosNodes = todos.map((item) => {
-    const { id, created, description, status, display } = item;
+    const { id, created, description, status, display, timer } = item;
     let classList = '';
     if (status === 'completed') classList += 'completed';
     if (!display) classList += ' display-none';
@@ -31,11 +48,13 @@ const TaskList: React.FC<TodosProp> = ({ todos, onCompleted, onDeleted, onEditin
           onCompleted={onCompleted}
           editingTask={editingTask}
           id={id}
+          timer={timer}
+          timerFormat={timerFormat}
+          onChangeTimer={onChangeTimer}
         />
       </li>
     );
   });
-
   return (
     <section className="main">
       <ul className="todo-list">{todosNodes}</ul>
