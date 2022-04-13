@@ -29,8 +29,10 @@ const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAdd }) => {
   const handleChange: HandleChangeFunc = (event) => {
     const { target } = event;
     if (target?.dataset.action === 'task-name') setName(target.value);
-    if (target?.dataset.action === 'task-min' && (+target.value || target.value === '')) setMin(target.value);
-    if (target?.dataset.action === 'task-sec' && (+target.value || target.value === '')) setSec(target.value);
+    if (target?.dataset.action === 'task-min' && (+target.value || target.value === '') && +target.value <= 59)
+      setMin(target.value);
+    if (target?.dataset.action === 'task-sec' && (+target.value || target.value === '') && +target.value <= 59)
+      setSec(target.value);
   };
   return (
     <header className="header">
