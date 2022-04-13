@@ -22,7 +22,6 @@ const Footer: React.FC<FooterProps> = ({ todos, clearComplete, buttons, onSelect
       </li>
     );
   });
-
   const countLeft = todos.filter((item) => item.status === 'completed').length;
 
   return (

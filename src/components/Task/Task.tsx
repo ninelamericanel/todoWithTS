@@ -3,8 +3,7 @@ import './Task.scss';
 import { formatDistanceToNow } from 'date-fns';
 
 import { OnDeletedFunc, OnCompletedFunc, OnEditingFunc, EditingTaskFunc } from 'types/app';
-
-import { EditInput } from '../EditInput';
+import { EditInput } from 'components/EditInput';
 
 interface TaskProps {
   id: string;
