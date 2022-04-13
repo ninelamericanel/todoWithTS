@@ -30,6 +30,7 @@ interface TaskProps {
 
 export type TurnOnTimerFunc = () => void;
 type DisabledButtonPlayFunc = () => boolean;
+type HandleClickTitleFunc = () => void;
 
 const Task: React.FC<TaskProps> = ({
   created,
@@ -73,18 +74,17 @@ const Task: React.FC<TaskProps> = ({
     </>
   );
 
+  const handleClickTitle: HandleClickTitleFunc = () => {
+    onCompleted(id);
+    setPlay(false);
+  };
+
   return (
     <>
       <div className="view">
-        <input className="toggle" type="checkbox" checked={completed} onChange={() => onCompleted(id)}></input>
+        <input className="toggle" type="checkbox" checked={completed} onChange={handleClickTitle}></input>
         <div className="label">
-          <span
-            className="title"
-            onClick={() => {
-              onCompleted(id);
-              setPlay(false);
-            }}
-          >
+          <span className="title" onClick={handleClickTitle}>
             {description}
           </span>
           <span className="description">{timer}</span>
