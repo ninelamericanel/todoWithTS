@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import './Timer.scss';
 import { OnChangeTimerFunc, TimerFormatFunc } from 'types/app';
 
 import { TurnOnTimerFunc } from '../Task/Task';
