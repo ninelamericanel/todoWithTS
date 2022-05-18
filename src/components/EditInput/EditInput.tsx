@@ -8,26 +8,23 @@ interface EditInputProps {
   id: string;
 }
 
-type HandleChange = (event: React.ChangeEvent) => void;
-type HandleClick = (event: React.KeyboardEvent) => void;
-
 const EditInput: React.FC<EditInputProps> = ({ description, editingTask, id }) => {
   const [value, setValue] = useState(description);
-  const inputElement = useRef<HTMLInputElement>(null);
+  const inputElement = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    if (inputElement.current) {
-      inputElement.current.focus();
-    }
+      if (inputElement.current) {
+        inputElement.current.focus();
+      }
   }, [inputElement.current]);
 
-  const handleChange: HandleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent): void => {
     const { target } = event;
     const eventValue = (target as HTMLButtonElement).value;
     setValue(eventValue);
   };
 
-  const handleClick: HandleClick = (event) => (event.key === 'Enter' ? editingTask(value, id) : null);
+  const handleClick = (event: React.KeyboardEvent): void | null => (event.key === 'Enter' ? editingTask(value, id) : null);
 
   return (
     <input
