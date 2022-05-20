@@ -2,9 +2,8 @@ import React, { FC, useState } from 'react';
 import './App.scss';
 
 import { NewTaskForm } from 'components/NewTaskForm';
-import { Todo } from 'types/todos';
 import { Task } from 'components/Task';
-import { OnAddTodoFunc, OnDeletedFunc } from 'types/app';
+import { Todo, OnAddTodoFunc, OnDeletedFunc } from 'types/todos';
 
 const App: FC = () => {
   const [todos, setTodos] = useState<Todo[] | []>([]);
