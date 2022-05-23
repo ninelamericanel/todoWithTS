@@ -1,55 +1,34 @@
-import React, { Component } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 
-import { OnChangeTimerFunc, TimerFormatFunc } from 'types/app';
-
-import { TurnOnTimerFunc } from '../Task/Task';
+import { NoParamsVoidFunc } from 'types/todos';
+import { PropsContext } from 'context/props-context';
 
 interface TimerProps {
   min: string;
   sec: string;
-  timerFormat: TimerFormatFunc;
-  onChangeTimer: OnChangeTimerFunc;
-  turnOnTimer: TurnOnTimerFunc;
+  turnOnTimer: NoParamsVoidFunc;
   id: string;
 }
 
-type TimerState = {
-  timerMin: string;
-  timerSec: string;
-};
+const Timer: FC<TimerProps> = ({ id, min, sec, turnOnTimer }) => {
+  const [timer, setTimer] = useState({
+    timerMin: min,
+    timerSec: sec,
+  });
+  const { timerFormatFunc, onChangeTimerFunc } = useContext(PropsContext);
 
-type CountDownFunc = () => void;
-
-export default class Timer extends Component<TimerProps, TimerState> {
-  state: TimerState = {
-    timerMin: this.props.min,
-    timerSec: this.props.sec,
-  };
-
-  private interval: NodeJS.Timer | undefined;
-
-  componentDidMount() {
-    this.interval = setInterval(() => this.countDown(), 1000);
-  }
-
-  componentWillUnmount() {
-    const { id, onChangeTimer } = this.props;
-    onChangeTimer(this.state.timerMin, this.state.timerSec, id);
-    clearInterval(this.interval as NodeJS.Timeout);
-  }
-
-  countDown: CountDownFunc = () => {
-    const { timerMin, timerSec } = this.state;
-    const { timerFormat, turnOnTimer } = this.props;
+  const countDown: NoParamsVoidFunc = () => {
+    const { timerMin, timerSec } = timer;
     if (timerSec === '00' && +timerMin > 0) {
-      this.setState({
-        timerMin: timerFormat(+timerMin - 1),
+      setTimer({
+        timerMin: timerFormatFunc(+timerMin - 1),
         timerSec: '59',
       });
     }
     if (+timerSec > 0 && +timerMin >= 0) {
-      this.setState({
-        timerSec: timerFormat(+timerSec - 1),
+      setTimer({
+        ...timer,
+        timerSec: timerFormatFunc(+timerSec - 1),
       });
     }
     if (timerSec === '00' && timerMin === '00') {
@@ -57,12 +36,19 @@ export default class Timer extends Component<TimerProps, TimerState> {
     }
   };
 
-  render() {
-    const { timerMin, timerSec } = this.state;
-    return (
-      <>
-        {timerMin}:{timerSec}
-      </>
-    );
-  }
-}
+  useEffect(() => {
+    const interval = setInterval(() => countDown(), 1000);
+    return () => {
+      clearInterval(interval);
+      onChangeTimerFunc(timer.timerMin, timer.timerSec, id);
+    };
+  }, [timer]);
+
+  return (
+    <>
+      {timer.timerMin}:{timer.timerSec}
+    </>
+  );
+};
+
+export default Timer;
