@@ -1,25 +1,47 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './App.scss';
 
 import { NewTaskForm } from 'components/NewTaskForm';
-import { Task } from 'components/Task';
-import { Todo, OnAddTodoFunc, OnDeletedFunc } from 'types/todos';
+import {
+  Todo,
+  OnAddTodoFunc,
+  OnDeletedFunc,
+  FindMaxIdFunc,
+  CreateNewTaskFunc,
+  EditingTaskFunc,
+  TimerFormatFunc,
+  OnChangeTimerFunc,
+  OnChangeStatusFunc,
+  NoParamsVoidFunc,
+  OnFilterTodosFunc,
+} from 'types/todos';
+import { PropsContext } from 'context/props-context';
+import { TaskList } from 'components/TaskList';
+import { Footer } from 'components/Footer';
 
 const App: FC = () => {
   const [todos, setTodos] = useState<Todo[] | []>([]);
 
-  const findMaxId = (): string => {
+  const findMaxId: FindMaxIdFunc = () => {
     const ids = todos.map((item) => +item.id);
     return ids.length > 0 ? (Math.max(...ids) + 1).toString() : '1';
   };
 
-  const createNewTask = (description: string, min: string, sec: string): Todo => {
+  useEffect(() => {
+    const todosFromLS = localStorage.todos ? localStorage.todos : [...todos];
+    localStorage.setItem('todos', todosFromLS);
+  }, []);
+
+  const timerFormat: TimerFormatFunc = (num) => (num < 10 ? '0' + num : num.toString());
+
+  const createNewTask: CreateNewTaskFunc = (description, min, sec) => {
     return {
       id: findMaxId(),
-      created: new Date().toString(),
+      created: new Date(),
       description,
-      min,
-      sec,
+      min: timerFormat(+min),
+      sec: timerFormat(+sec),
+      status: 'active',
       display: true,
     };
   };
@@ -34,209 +56,80 @@ const App: FC = () => {
     setTodos(newTodos);
   };
 
-  const todoNodes = todos.map((todo) => {
-    return (
-      <li key={todo.id}>
-        <Task todo={todo} onDeleted={onDeleted} />
-      </li>
-    );
-  });
+  const onChangeStatus: OnChangeStatusFunc = (id, status) => {
+    const newTodos = todos.map((todo) => {
+      if (todo.id === id) todo.status = todo.status === 'active' ? (todo.status = status) : (todo.status = 'active');
+      return todo;
+    });
+    setTodos(newTodos);
+  };
+
+  const clearComplete: NoParamsVoidFunc = () => {
+    const newTodos = todos.filter((item) => (item.status === ('active' || 'editing') ? item : null));
+    setTodos(newTodos);
+  };
+
+  const onFilterTodos: OnFilterTodosFunc = (name) => {
+    const allTodods = todos.map((item) => {
+      if (name === 'Active') {
+        item.display = item.status === 'active';
+      } else if (name === 'Completed') {
+        item.display = item.status === 'completed';
+      } else {
+        item.display = true;
+      }
+      return item;
+    });
+    setTodos(allTodods);
+  };
+
+  const editingTask: EditingTaskFunc = (value, id) => {
+    const newTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.description = value;
+        todo.created = new Date();
+        todo.status = 'active';
+      }
+      return todo;
+    });
+    setTodos(newTodos);
+  };
+
+  const onChangeTimer: OnChangeTimerFunc = (newMin, newSec, id) => {
+    const newArray = todos.map((item) => {
+      if (item.id === id) {
+        item.min = newMin;
+        item.sec = newSec;
+      }
+      return item;
+    });
+    setTodos(newArray);
+  };
+
+  const countLeft = todos.filter((item) => item.status === 'completed').length;
+  const countTodods = todos.length;
 
   return (
-    <section className="todoapp">
-      <NewTaskForm onAddTodo={onAddTodo} />
-      <section className="main">
-        <ul className="todo-list">{todoNodes}</ul>
+    <PropsContext.Provider
+      value={{
+        onChangeTimerFunc: onChangeTimer,
+        timerFormatFunc: timerFormat,
+        onChangeStatusFunc: onChangeStatus,
+        onDeletedFunc: onDeleted,
+        editingTaskFunc: editingTask,
+        clearCompleteFunc: clearComplete,
+        onFilterTodosFunc: onFilterTodos,
+      }}
+    >
+      <section className="todoapp">
+        <NewTaskForm onAddTodo={onAddTodo} />
+        <section className="main">
+          <TaskList todos={todos} />
+        </section>
+        <Footer countLeft={countLeft} countTodods={countTodods} />
       </section>
-      {/*<Footer*/}
-      {/*    todos={todos}*/}
-      {/*    buttons={this.state.filterButtons}*/}
-      {/*    clearComplete={this.clearComplete}*/}
-      {/*    onSelectedFilter={this.onSelectedFilter}*/}
-      {/*    onFilterTodos={this.onFilterTodos}*/}
-      {/*/>*/}
-    </section>
+    </PropsContext.Provider>
   );
 };
 
 export default App;
-
-// export default class App extends Component<TodosProps, AppState> {
-//   state: AppState = {
-//     todos: [
-//       {
-//         id: '1',
-//         created: new Date(),
-//         description: 'Completed task',
-//         status: 'completed',
-//         display: true,
-//         timer: {
-//           min: '00',
-//           sec: '04',
-//         },
-//       },
-//       {
-//         id: '2',
-//         created: new Date(),
-//         description: 'Editing task',
-//         status: 'active',
-//         display: true,
-//         timer: {
-//           min: '02',
-//           sec: '02',
-//         },
-//       },
-//       {
-//         id: '3',
-//         created: new Date(),
-//         description: 'Active task',
-//         status: 'active',
-//         display: true,
-//         timer: {
-//           min: '02',
-//           sec: '02',
-//         },
-//       },
-//     ],
-//     filterButtons: [
-//       { name: 'All', selected: true },
-//       { name: 'Active', selected: false },
-//       { name: 'Completed', selected: false },
-//     ],
-//   };
-//
-//   createTask = (text: string, min: string, sec: string): TodoItem => {
-//     return {
-//       id: this.findMaxId(),
-//       created: new Date(),
-//       description: text,
-//       status: 'active',
-//       display: true,
-//       timer: {
-//         min: this.timerFormat(+min),
-//         sec: this.timerFormat(+sec),
-//       },
-//     };
-//   };
-//
-//
-//   onAdd: OnAddFunc = (name, min, sec) => {
-//     const newTodos = this.state.todos;
-//     newTodos.push(this.createTask(name, min, sec));
-//     this.setState({
-//       todos: newTodos,
-//     });
-//   };
-//
-//   onCompleted: OnCompletedFunc = (id) => {
-//     const newTodos = this.state.todos.map((item) => {
-//       if (item.id === id) {
-//         item.status = item.status === 'active' ? (item.status = 'completed') : (item.status = 'active');
-//       }
-//       return item;
-//     });
-//     this.setState({
-//       todos: newTodos,
-//     });
-//   };
-//
-//   clearComplete: ClearCompleteFunc = () => {
-//     const newTodos = this.state.todos.filter((item) => (item.status === ('active' || 'editing') ? item : null));
-//     this.setState({
-//       todos: newTodos,
-//     });
-//   };
-//
-//
-//   onEditing: OnEditingFunc = (id) => {
-//     const newTodos = this.state.todos.map((item) => {
-//       if (item.id === id) {
-//         item.status = 'editing';
-//       }
-//       return item;
-//     });
-//     this.setState({
-//       todos: newTodos,
-//     });
-//   };
-//
-//   onChangeTimer: OnChangeTimerFunc = (newMin, newSec, id) => {
-//     const newArray = this.state.todos.map((item) => {
-//       if (item.id === id) {
-//         item.timer.min = newMin;
-//         item.timer.sec = newSec;
-//       }
-//       return item;
-//     });
-//     this.setState({
-//       todos: newArray,
-//     });
-//   };
-//
-//   editingTask: EditingTaskFunc = (value, id) => {
-//     const newArray = this.state.todos.map((item) => {
-//       if (item.id === id) {
-//         item.description = value;
-//         item.status = 'active';
-//         item.created = new Date();
-//       }
-//       return item;
-//     });
-//
-//     this.setState({
-//       todos: newArray,
-//     });
-//   };
-//
-//   onSelectedFilter: OnSelectedFilterFunc = (name) => {
-//     const newButtons = this.state.filterButtons.map((btn) => {
-//       btn.selected = btn.name === name;
-//       return btn;
-//     });
-//     this.setState({
-//       filterButtons: newButtons,
-//     });
-//   };
-//
-//   onFilterTodos: OnFilterTodosFunc = (name) => {
-//     const allTodods = this.state.todos.map((item) => {
-//       if (name === 'Active') {
-//         item.display = item.status === 'active';
-//       } else if (name === 'Completed') {
-//         item.display = item.status === 'completed';
-//       } else {
-//         item.display = true;
-//       }
-//       return item;
-//     });
-//     this.setState({
-//       todos: allTodods,
-//     });
-//   };
-//
-//   render() {
-//     return (
-//       <section className="todoapp">
-//         <NewTaskForm onAdd={this.onAdd} />
-//         <section className="main">
-//           <TaskList
-//             todos={this.state.todos}
-//             onEditing={this.onEditing}
-//             onCompleted={this.onCompleted}
-//             onDeleted={this.onDeleted}
-//             editingTask={this.editingTask}
-//             timerFormat={this.timerFormat}
-//             onChangeTimer={this.onChangeTimer}
-//           />
-//         </section>
-//         <Footer
-//           todos={this.state.todos}
-//           buttons={this.state.filterButtons}
-//           clearComplete={this.clearComplete}
-//           onSelectedFilter={this.onSelectedFilter}
-//           onFilterTodos={this.onFilterTodos}
-//         />
-//       </section>
-//     );
-//   }
-// }
