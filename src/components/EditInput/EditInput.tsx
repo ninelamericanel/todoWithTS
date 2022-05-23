@@ -1,21 +1,21 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 
-import { EditingTaskFunc } from 'types/app';
+import { PropsContext } from 'context/props-context';
 
 interface EditInputProps {
-  editingTask: EditingTaskFunc;
   description: string;
   id: string;
 }
 
-const EditInput: React.FC<EditInputProps> = ({ description, editingTask, id }) => {
+const EditInput: React.FC<EditInputProps> = ({ description, id }) => {
   const [value, setValue] = useState(description);
+  const context = useContext(PropsContext);
   const inputElement = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-      if (inputElement.current) {
-        inputElement.current.focus();
-      }
+    if (inputElement.current) {
+      inputElement.current.focus();
+    }
   }, [inputElement.current]);
 
   const handleChange = (event: React.ChangeEvent): void => {
@@ -24,7 +24,8 @@ const EditInput: React.FC<EditInputProps> = ({ description, editingTask, id }) =
     setValue(eventValue);
   };
 
-  const handleClick = (event: React.KeyboardEvent): void | null => (event.key === 'Enter' ? editingTask(value, id) : null);
+  const handleClick = (event: React.KeyboardEvent): void | null =>
+    event.key === 'Enter' ? context.editingTaskFunc(value, id) : null;
 
   return (
     <input
