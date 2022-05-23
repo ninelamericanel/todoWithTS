@@ -1,28 +1,24 @@
 import React, { useState } from 'react';
 import './NewTaskForm.scss';
 
-import { OnAddFunc } from 'types/app';
+import { HandleChangeFunc, HandleKeyUpFunc, NoParamsVoidFunc, OnAddTodoFunc } from 'types/todos';
 
 interface NewTaskFormProps {
-  onAdd: OnAddFunc;
+  onAddTodo: OnAddTodoFunc;
 }
 
-type HandleKeyUpFunc = (event: React.KeyboardEvent<HTMLFormElement>) => void;
-type HandleChangeFunc = (event: React.ChangeEvent<HTMLInputElement>) => void;
-type ResetFormFunc = () => void;
-
-const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAdd }) => {
+const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAddTodo }) => {
   const [name, setName] = useState('');
   const [min, setMin] = useState('');
   const [sec, setSec] = useState('');
-  const resetForm: ResetFormFunc = () => {
+  const resetForm: NoParamsVoidFunc = () => {
     setName('');
     setMin('');
     setSec('');
   };
   const handleKeyUp: HandleKeyUpFunc = (event) => {
     if (event.key === 'Enter' && name.trim()) {
-      onAdd(name, min, sec);
+      onAddTodo(name, min, sec);
       resetForm();
     }
   };
