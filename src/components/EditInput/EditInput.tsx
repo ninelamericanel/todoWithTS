@@ -26,7 +26,13 @@ const EditInput: React.FC<EditInputProps> = ({ description, id }) => {
   };
 
   const handleKeyUp: HandleKeyUpInputFunc = (event) => {
-    if (event.key === 'Enter') editingTaskFunc(value, id);
+    if (event.key === 'Enter') {
+      if (value === description) {
+        onChangeStatusFunc(id, 'editing');
+      } else {
+        editingTaskFunc(value, id);
+      }
+    }
     if (event.key === 'Escape') onChangeStatusFunc(id, 'editing');
   };
 
