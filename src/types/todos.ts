@@ -43,7 +43,7 @@ export type NoParamsVoidFunc = () => void;
 export type CreateNewTaskFunc = (description: string, min: string, sec: string) => Todo;
 
 export type FindMaxIdFunc = () => string;
-
+export type DisplayTodoFunc = () => boolean;
 export type OnChangeStatusFunc = (id: string, status: string) => void;
 
 export type OnDeletedFunc = (id: string) => void;

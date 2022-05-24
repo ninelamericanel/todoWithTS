@@ -14,6 +14,8 @@ import {
   OnChangeStatusFunc,
   NoParamsVoidFunc,
   OnFilterTodosFunc,
+  OnChangeTimerFunc,
+  DisplayTodoFunc,
 } from 'types/todos';
 import { PropsContext } from 'context/props-context';
 import { TaskList } from 'components/TaskList';
@@ -39,6 +41,22 @@ const App: FC = () => {
 
   const timerFormat: TimerFormatFunc = (num) => (num < 10 ? '0' + num : num.toString());
 
+  const onFilterTodos: OnFilterTodosFunc = (name = button) => {
+    const allTodods = todos.map((item) => {
+      if (name === 'Active') {
+        item.display = item.status === 'active';
+      } else if (name === 'Completed') {
+        item.display = item.status === 'completed';
+      } else {
+        item.display = true;
+      }
+      return item;
+    });
+    setTodos(allTodods);
+  };
+
+  const displayTodo: DisplayTodoFunc = () => button !== 'Completed';
+
   const createNewTask: CreateNewTaskFunc = (description, min, sec) => {
     return {
       id: findMaxId(),
@@ -47,7 +65,7 @@ const App: FC = () => {
       min: timerFormat(+min),
       sec: timerFormat(+sec),
       status: 'active',
-      display: true,
+      display: displayTodo(),
     };
   };
 
