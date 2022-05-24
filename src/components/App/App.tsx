@@ -28,9 +28,14 @@ const App: FC = () => {
   };
 
   useEffect(() => {
-    const todosFromLS = localStorage.todos ? localStorage.todos : [...todos];
+    const todosFromLS = JSON.parse(localStorage.todos).length ? localStorage.todos : JSON.stringify([...todos]);
     localStorage.setItem('todos', todosFromLS);
+    setTodos(JSON.parse(localStorage.todos));
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
 
   const timerFormat: TimerFormatFunc = (num) => (num < 10 ? '0' + num : num.toString());
 
