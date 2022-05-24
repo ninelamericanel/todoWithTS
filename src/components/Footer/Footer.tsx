@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { Dispatch, FC, useContext, useEffect } from 'react';
 import './Footer.scss';
 
 import { PropsContext } from 'context/props-context';
@@ -7,11 +7,12 @@ import { HandleClickFunc } from 'types/todos';
 interface FooterProps {
   countLeft: number;
   countTodods: number;
+  setButton: Dispatch<string>;
+  button: string;
 }
 
-const Footer: FC<FooterProps> = ({ countLeft, countTodods }) => {
+const Footer: FC<FooterProps> = ({ countLeft, countTodods, setButton, button }) => {
   const buttonsNames = ['All', 'Active', 'Completed'];
-  const [button, setButton] = useState('All');
   const { clearCompleteFunc, onFilterTodosFunc } = useContext(PropsContext);
 
   useEffect(() => {
