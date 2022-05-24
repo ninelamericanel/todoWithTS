@@ -18,6 +18,7 @@ export interface PropsContextType {
   onChangeTimerFunc: OnChangeTimerFunc;
   clearCompleteFunc: NoParamsVoidFunc;
   onFilterTodosFunc: OnFilterTodosFunc;
+  onAddTodoFunc: OnAddTodoFunc;
 }
 
 export type NoParamsVoidFunc = () => void;
@@ -35,3 +36,4 @@ export type HandleKeyUpFunc = (event: React.KeyboardEvent<HTMLFormElement>) => v
 export type HandleChangeFunc = (event: React.ChangeEvent<HTMLInputElement>) => void;
 export type HandleKeyUpInputFunc = (event: React.KeyboardEvent<HTMLInputElement>) => void;
 export type HandleClickFunc = (nameButton: string) => void;
+export type DisabledButtonPlayFunc = () => boolean;

@@ -10,6 +10,7 @@ const defaultValue: PropsContextType = {
   onChangeTimerFunc: () => undefined,
   clearCompleteFunc: () => undefined,
   onFilterTodosFunc: () => undefined,
+  onAddTodoFunc: () => undefined,
 };
 
 export const PropsContext = React.createContext<PropsContextType>(defaultValue);

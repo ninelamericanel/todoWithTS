@@ -126,10 +126,11 @@ const App: FC = () => {
         editingTaskFunc: editingTask,
         clearCompleteFunc: clearComplete,
         onFilterTodosFunc: onFilterTodos,
+        onAddTodoFunc: onAddTodo,
       }}
     >
       <section className="todoapp">
-        <NewTaskForm onAddTodo={onAddTodo} />
+        <NewTaskForm />
         <section className="main">
           <TaskList todos={todos} />
         </section>
