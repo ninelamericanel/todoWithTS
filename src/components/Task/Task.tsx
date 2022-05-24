@@ -26,8 +26,10 @@ const Task: FC<TaskProps> = ({ todo: { id, created, initialSec, initialMin, desc
     setPlay(false);
     onChangeStatusFunc(id, 'completed');
   };
-  const disabledButtonPlay: DisabledButtonPlayFunc = () =>
-    (initialMin === '00' && initialSec === '00') || (timerSec === '00' && timerMin === '00') || completed;
+
+  const disabledButtonPlay: DisabledButtonPlayFunc = () => {
+    return (initialMin === '00' && initialSec === '00') || (timerSec === '00' && timerMin === '00') || completed;
+  };
   const editing = status === 'editing' ? <EditInput id={id} description={description} /> : null;
   const timerView = play ? (
     <>
@@ -50,6 +52,7 @@ const Task: FC<TaskProps> = ({ todo: { id, created, initialSec, initialMin, desc
           checked={completed}
           onChange={() => {
             onChangeStatusFunc(id, 'completed');
+            setPlay(false);
             onFilterTodosFunc();
           }}
         ></input>
