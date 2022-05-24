@@ -10,7 +10,6 @@ import {
   CreateNewTaskFunc,
   EditingTaskFunc,
   TimerFormatFunc,
-  OnChangeTimerFunc,
   OnChangeStatusFunc,
   NoParamsVoidFunc,
   OnFilterTodosFunc,
@@ -23,6 +22,7 @@ import { Footer } from 'components/Footer';
 
 const App: FC = () => {
   const [todos, setTodos] = useState<Todo[] | []>([]);
+  const [button, setButton] = useState('All');
 
   const findMaxId: FindMaxIdFunc = () => {
     const ids = todos.map((item) => +item.id);
@@ -62,8 +62,8 @@ const App: FC = () => {
       id: findMaxId(),
       created: new Date(),
       description,
-      min: timerFormat(+min),
-      sec: timerFormat(+sec),
+      initialMin: timerFormat(+min),
+      initialSec: timerFormat(+sec),
       status: 'active',
       display: displayTodo(),
     };
@@ -92,20 +92,6 @@ const App: FC = () => {
     setTodos(newTodos);
   };
 
-  const onFilterTodos: OnFilterTodosFunc = (name) => {
-    const allTodods = todos.map((item) => {
-      if (name === 'Active') {
-        item.display = item.status === 'active';
-      } else if (name === 'Completed') {
-        item.display = item.status === 'completed';
-      } else {
-        item.display = true;
-      }
-      return item;
-    });
-    setTodos(allTodods);
-  };
-
   const editingTask: EditingTaskFunc = (value, id) => {
     const newTodos = todos.map((todo) => {
       if (todo.id === id) {
@@ -121,17 +107,15 @@ const App: FC = () => {
   const onChangeTimer: OnChangeTimerFunc = (newMin, newSec, id) => {
     const newArray = todos.map((item) => {
       if (item.id === id) {
-        item.min = newMin;
-        item.sec = newSec;
+        item.initialMin = newMin;
+        item.initialSec = newSec;
       }
       return item;
     });
     setTodos(newArray);
   };
-
   const countLeft = todos.filter((item) => item.status === 'completed').length;
   const countTodods = todos.length;
-
   return (
     <PropsContext.Provider
       value={{
@@ -149,7 +133,7 @@ const App: FC = () => {
         <section className="main">
           <TaskList todos={todos} />
         </section>
-        <Footer countLeft={countLeft} countTodods={countTodods} />
+        <Footer countLeft={countLeft} countTodods={countTodods} setButton={setButton} button={button} />
       </section>
     </PropsContext.Provider>
   );
