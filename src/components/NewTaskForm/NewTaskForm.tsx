@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './NewTaskForm.scss';
 
-import { HandleChangeFunc, HandleKeyUpFunc, NoParamsVoidFunc, OnAddTodoFunc } from 'types/todos';
+import { HandleChangeFunc, HandleKeyUpFunc, NoParamsVoidFunc } from 'types/todos';
+import { PropsContext } from 'context/props-context';
 
-interface NewTaskFormProps {
-  onAddTodo: OnAddTodoFunc;
-}
-
-const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAddTodo }) => {
+const NewTaskForm: React.FC = () => {
   const [name, setName] = useState('');
   const [min, setMin] = useState('');
   const [sec, setSec] = useState('');
+  const { onAddTodoFunc } = useContext(PropsContext);
   const resetForm: NoParamsVoidFunc = () => {
     setName('');
     setMin('');
@@ -18,7 +16,7 @@ const NewTaskForm: React.FC<NewTaskFormProps> = ({ onAddTodo }) => {
   };
   const handleKeyUp: HandleKeyUpFunc = (event) => {
     if (event.key === 'Enter' && name.trim()) {
-      onAddTodo(name, min, sec);
+      onAddTodoFunc(name, min, sec);
       resetForm();
     }
   };
