@@ -15,14 +15,16 @@ import {
   OnFilterTodosFunc,
   OnChangeTimerFunc,
   DisplayTodoFunc,
+  HandleClickFunc,
 } from 'types/todos';
 import { PropsContext } from 'context/props-context';
 import { TaskList } from 'components/TaskList';
-import { Footer } from 'components/Footer';
 
 const App: FC = () => {
   const [todos, setTodos] = useState<Todo[] | []>([]);
   const [button, setButton] = useState('All');
+
+  const countTodods = todos.length;
 
   const findMaxId: FindMaxIdFunc = () => {
     const ids = todos.map((item) => +item.id);
@@ -38,6 +40,10 @@ const App: FC = () => {
   useEffect(() => {
     localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos]);
+
+  useEffect(() => {
+    if (countTodods === 0) setButton('All');
+  }, [countTodods]);
 
   const timerFormat: TimerFormatFunc = (num) => (num < 10 ? '0' + num : num.toString());
 
@@ -114,8 +120,23 @@ const App: FC = () => {
     });
     setTodos(newArray);
   };
+  const handleClick: HandleClickFunc = (nameButton) => {
+    if (countTodods) {
+      setButton(nameButton);
+      onFilterTodos(nameButton);
+    }
+  };
   const countLeft = todos.filter((item) => item.status === 'completed').length;
-  const countTodods = todos.length;
+  const buttonsNodes = ['All', 'Active', 'Completed'].map((name, i) => {
+    const classSelected = name === button ? 'selected' : null;
+    return (
+      <li key={i}>
+        <button className={classSelected || undefined} onClick={() => handleClick(name)}>
+          {name}
+        </button>
+      </li>
+    );
+  });
   return (
     <PropsContext.Provider
       value={{
@@ -134,7 +155,13 @@ const App: FC = () => {
         <section className="main">
           <TaskList todos={todos} />
         </section>
-        <Footer countLeft={countLeft} countTodods={countTodods} setButton={setButton} button={button} />
+        <footer className="footer">
+          <span className="todo-count">{countLeft} items left</span>
+          <ul className="filters">{buttonsNodes}</ul>
+          <button className="clear-completed" onClick={clearComplete}>
+            Clear completed
+          </button>
+        </footer>
       </section>
     </PropsContext.Provider>
   );
