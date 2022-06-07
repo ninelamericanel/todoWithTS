@@ -22,6 +22,7 @@ import {
 } from 'types/todos';
 import { PropsContext } from 'context/props-context';
 import { TaskList } from 'components/TaskList';
+import { Filter } from 'components/Filter';
 
 const App: FC = () => {
   const [todos, setTodos] = useState<Todo[] | []>([]);
@@ -150,16 +151,6 @@ const App: FC = () => {
     }
   };
   const countLeft = todos.filter((item) => item.status === 'completed').length;
-  const buttonsNodes = ['All', 'Active', 'Completed'].map((name, i) => {
-    const classSelected = name === button ? 'selected' : null;
-    return (
-      <li key={i}>
-        <button className={classSelected || undefined} onClick={() => handleClick(name)}>
-          {name}
-        </button>
-      </li>
-    );
-  });
 
   return (
     <PropsContext.Provider
@@ -186,7 +177,9 @@ const App: FC = () => {
         </section>
         <footer className="footer">
           <span className="todo-count">{countLeft} items left</span>
-          <ul className="filters">{buttonsNodes}</ul>
+          <ul className="filters">
+            <Filter button={button} handleClick={handleClick} />
+          </ul>
           <button className="clear-completed" onClick={clearComplete}>
             Clear completed
           </button>
