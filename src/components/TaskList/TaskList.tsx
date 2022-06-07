@@ -10,11 +10,7 @@ interface Props {
 
 const TaskList: React.FC<Props> = ({ todos }) => {
   const todosNodes = todos.map((todo: Todo) => <Task key={todo.id} todo={todo} />);
-  return (
-    <section className="main">
-      <ul className="todo-list">{todosNodes}</ul>
-    </section>
-  );
+  return <ul className="todo-list">{todosNodes}</ul>;
 };
 
 export default TaskList;
