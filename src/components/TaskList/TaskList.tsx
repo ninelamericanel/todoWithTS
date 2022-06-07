@@ -4,23 +4,12 @@ import './TaskList.scss';
 import { Todo } from 'types/todos';
 import { Task } from 'components/Task';
 
-interface TodosProp {
+interface Props {
   todos: Todo[];
 }
 
-const TaskList: React.FC<TodosProp> = ({ todos }) => {
-  const todosNodes = todos.map((todo: Todo) => {
-    const { id, status, display } = todo;
-    let classList = '';
-    if (status === 'completed') classList += 'completed';
-    if (!display) classList += ' display-none';
-    if (status === 'editing') classList = 'editing';
-    return (
-      <li className={classList} key={id}>
-        <Task todo={todo} />
-      </li>
-    );
-  });
+const TaskList: React.FC<Props> = ({ todos }) => {
+  const todosNodes = todos.map((todo: Todo) => <Task key={todo.id} todo={todo} />);
   return (
     <section className="main">
       <ul className="todo-list">{todosNodes}</ul>

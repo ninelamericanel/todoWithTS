@@ -7,11 +7,18 @@ import { Timer } from 'components/Timer';
 import { PropsContext } from 'context/props-context';
 import { DisabledButtonPlayFunc, NoParamsVoidFunc, Todo } from 'types/todos';
 
-interface TaskProps {
+interface Props {
   todo: Todo;
 }
 
-const Task: FC<TaskProps> = ({ todo: { id, created, initialSec, initialMin, description, status } }) => {
+const style = (status: string, display: boolean): string => {
+  if (!display) return 'display-none';
+  if (status === 'completed' || status === 'editing') return `${status}`;
+
+  return '';
+};
+
+const Task: FC<Props> = ({ todo: { id, created, display, initialSec, initialMin, description, status } }) => {
   const [play, setPlay] = useState(false);
   const [timer, setTimer] = useState({
     timerMin: initialMin,
@@ -44,7 +51,7 @@ const Task: FC<TaskProps> = ({ todo: { id, created, initialSec, initialMin, desc
   );
 
   return (
-    <>
+    <li className={style(status, display)}>
       <div className="view">
         <input
           className="toggle"
@@ -79,7 +86,7 @@ const Task: FC<TaskProps> = ({ todo: { id, created, initialSec, initialMin, desc
         <button className="icon icon-destroy" title="destroy" onClick={() => onDeletedFunc(id)}></button>
       </div>
       {editing}
-    </>
+    </li>
   );
 };
 
