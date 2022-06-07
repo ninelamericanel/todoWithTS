@@ -10,6 +10,12 @@ export interface Todo {
   initialSec: string;
 }
 
+export type FormType = {
+  title: string;
+  min: string;
+  sec: string;
+};
+
 export interface PropsContextType {
   onDeletedFunc: OnDeletedFunc;
   editingTaskFunc: EditingTaskFunc;

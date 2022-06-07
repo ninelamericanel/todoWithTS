@@ -16,12 +16,16 @@ import {
   OnChangeTimerFunc,
   DisplayTodoFunc,
   HandleClickFunc,
+  HandleKeyUpFunc,
+  FormType,
+  HandleChangeFunc,
 } from 'types/todos';
 import { PropsContext } from 'context/props-context';
 import { TaskList } from 'components/TaskList';
 
 const App: FC = () => {
   const [todos, setTodos] = useState<Todo[] | []>([]);
+  const [form, setForm] = useState<FormType>({ title: '', min: '', sec: '' });
   const [button, setButton] = useState('All');
 
   const countTodods = todos.length;
@@ -75,9 +79,28 @@ const App: FC = () => {
     };
   };
 
-  const onAddTodo: OnAddTodoFunc = (description, min, sec): void => {
+  const resetForm: NoParamsVoidFunc = () => setForm({ title: '', min: '', sec: '' });
+
+  const onAddTodo: OnAddTodoFunc = (description, min, sec) => {
     const newTodo = createNewTask(description, min, sec);
     setTodos([...todos, newTodo]);
+  };
+
+  const handleKeyUp: HandleKeyUpFunc = (event) => {
+    const { title, min, sec } = form;
+    if (event.key === 'Enter' && title.trim()) {
+      onAddTodo(title, min, sec);
+      resetForm();
+    }
+  };
+
+  const handleChange: HandleChangeFunc = (event) => {
+    const { target } = event;
+    if (target?.dataset.action === 'task-name') setForm({ ...form, title: target.value });
+    if (target?.dataset.action === 'task-min' && (+target.value || target.value === '') && +target.value <= 59)
+      setForm({ ...form, min: target.value });
+    if (target?.dataset.action === 'task-sec' && (+target.value || target.value === '') && +target.value <= 59)
+      setForm({ ...form, sec: target.value });
   };
 
   const onDeleted: OnDeletedFunc = (id) => {
@@ -137,6 +160,7 @@ const App: FC = () => {
       </li>
     );
   });
+
   return (
     <PropsContext.Provider
       value={{
@@ -151,7 +175,12 @@ const App: FC = () => {
       }}
     >
       <section className="todoapp">
-        <NewTaskForm />
+        <header className="header">
+          <h1>todos</h1>
+          <form className="new-todo-form" onKeyUp={handleKeyUp}>
+            <NewTaskForm form={form} handleChange={handleChange} />
+          </form>
+        </header>
         <section className="main">
           <TaskList todos={todos} />
         </section>
