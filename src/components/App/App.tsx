@@ -29,7 +29,7 @@ const App: FC = () => {
   const [form, setForm] = useState<FormType>({ title: '', min: '', sec: '' });
   const [button, setButton] = useState('All');
 
-  const countTodods = todos.length;
+  const countTodos = todos.length;
 
   const findMaxId: FindMaxIdFunc = () => {
     const ids = todos.map((item) => +item.id);
@@ -47,8 +47,8 @@ const App: FC = () => {
   }, [todos]);
 
   useEffect(() => {
-    if (countTodods === 0) setButton('All');
-  }, [countTodods]);
+    if (countTodos === 0) setButton('All');
+  }, [countTodos]);
 
   const timerFormat: TimerFormatFunc = (num) => (num < 10 ? '0' + num : num.toString());
 
@@ -145,7 +145,7 @@ const App: FC = () => {
     setTodos(newArray);
   };
   const handleClick: HandleClickFunc = (nameButton) => {
-    if (countTodods) {
+    if (countTodos) {
       setButton(nameButton);
       onFilterTodos(nameButton);
     }
