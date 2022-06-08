@@ -6,7 +6,6 @@ const defaultValue: PropsContextType = {
   onDeletedFunc: () => undefined,
   editingTaskFunc: () => undefined,
   onChangeStatusFunc: () => undefined,
-  timerFormatFunc: () => '00',
   onChangeTimerFunc: () => undefined,
   clearCompleteFunc: () => undefined,
   onFilterTodosFunc: () => undefined,

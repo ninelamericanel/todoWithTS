@@ -1,48 +1,37 @@
-import React, { Dispatch, FC, SetStateAction, useContext, useEffect } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 
-import { NoParamsVoidFunc } from 'types/todos';
 import { PropsContext } from 'context/props-context';
+import { TimerFormatFunc } from 'types/todos';
 
-interface TimerProps {
-  timer: {
-    timerMin: string;
-    timerSec: string;
-  };
-  turnOnTimer: NoParamsVoidFunc;
-  setTimer: Dispatch<SetStateAction<{ timerMin: string; timerSec: string }>>;
+interface Props {
+  initialSec: number;
+  turnOnTimer: () => void;
+  id: string;
+  timerFormat: TimerFormatFunc;
 }
 
-const Timer: FC<TimerProps> = ({ timer, setTimer, turnOnTimer }) => {
-  const { timerFormatFunc } = useContext(PropsContext);
-  const countDown: NoParamsVoidFunc = () => {
-    const { timerMin, timerSec } = timer;
-    if (timerSec === '00' && +timerMin > 0) {
-      setTimer({
-        timerMin: timerFormatFunc(+timerMin - 1),
-        timerSec: '59',
-      });
-    }
-    if (+timerSec > 0 && +timerMin >= 0) {
-      setTimer({
-        ...timer,
-        timerSec: timerFormatFunc(+timerSec - 1),
-      });
-    }
-    if (timerSec === '00' && timerMin === '00') {
+const Timer: FC<Props> = ({ initialSec, turnOnTimer, id, timerFormat }) => {
+  const [timer, setTimer] = useState(initialSec);
+  const { onChangeTimerFunc } = useContext(PropsContext);
+  const clock = () => {
+    if (timer === 0) {
       turnOnTimer();
+      onChangeTimerFunc(timer, id);
     }
+    setTimer(timer - 1);
   };
 
   useEffect(() => {
-    const interval = setInterval(() => countDown(), 1000);
+    const interval = setInterval(() => clock(), 1000);
     return () => {
+      onChangeTimerFunc(timer, id);
       clearInterval(interval);
     };
   }, [timer]);
 
   return (
     <>
-      {timer.timerMin}:{timer.timerSec}
+      {timerFormat(Math.floor(timer / 60))} : {timerFormat(timer % 60)}
     </>
   );
 };

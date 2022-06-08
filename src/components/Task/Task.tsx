@@ -1,24 +1,20 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
-import './Task.scss';
+import React, { FC, useContext, useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 
+import './Task.scss';
+
 import { EditInput } from 'components/EditInput';
-import { Timer } from 'components/Timer';
 import { PropsContext } from 'context/props-context';
-import { DisabledButtonPlayFunc, NoParamsVoidFunc, Todo } from 'types/todos';
+import { TimerFormatFunc, Todo } from 'types/todos';
+import { Timer } from 'components/Timer';
+
+import style from './style';
 
 interface Props {
   todo: Todo;
 }
 
-const style = (status: string, display: boolean): string => {
-  if (!display) return 'display-none';
-  if (status === 'completed' || status === 'editing') return `${status}`;
-
-  return '';
-};
-
-const Task: FC<Props> = ({ todo: { id, created, display, initialSec, initialMin, description, status } }) => {
+const Task: FC<Props> = ({ todo: { id, created, display, initialSec, description, status } }) => {
   const [play, setPlay] = useState(false);
   const [timer, setTimer] = useState({
     timerMin: initialMin,
@@ -27,63 +23,43 @@ const Task: FC<Props> = ({ todo: { id, created, display, initialSec, initialMin,
   const { timerMin, timerSec } = timer;
   const { onChangeTimerFunc, onChangeStatusFunc, onDeletedFunc, onFilterTodosFunc } = useContext(PropsContext);
   const date = formatDistanceToNow(new Date(created), { includeSeconds: true });
-  const completed: boolean = status === 'completed';
-  useEffect(() => onChangeTimerFunc(timerMin, timerSec, id), [play]);
-  const turnOnTimer: NoParamsVoidFunc = () => {
-    setPlay(false);
-    onChangeStatusFunc(id, 'completed');
-  };
-
-  const disabledButtonPlay: DisabledButtonPlayFunc = () => {
-    return (initialMin === '00' && initialSec === '00') || (timerSec === '00' && timerMin === '00') || completed;
-  };
-  const editing = status === 'editing' ? <EditInput id={id} description={description} /> : null;
-  const timerView = play ? (
-    <>
-      <button onClick={() => setPlay(false)} className="icon icon-pause"></button>
-      <Timer turnOnTimer={turnOnTimer} timer={timer} setTimer={setTimer} />
-    </>
+  const completed = status === 'completed';
+  const button = play ? (
+    <button onClick={() => setPlay(false)} className="icon icon-pause" />
   ) : (
-    <>
-      <button onClick={() => setPlay(true)} disabled={disabledButtonPlay()} className="icon icon-play"></button>
-      {timerMin}:{timerSec}
-    </>
+    <button onClick={() => setPlay(true)} className="icon icon-play" />
   );
-
+  const turnOnTimer = () => {
+    setPlay(false);
+  };
+  const viewTimer = play ? (
+    <Timer initialSec={initialSec} turnOnTimer={turnOnTimer} id={id} timerFormat={timerFormat} />
+  ) : (
+    `${timerFormat(Math.floor(initialSec / 60))} : ${timerFormat(initialSec % 60)}`
+  );
+  const editing = edit ? <EditInput description={description} id={id} /> : null;
+  const handleChange = () => {
+    onChangeStatusFunc(id, 'completed');
+    setPlay(false);
+    onFilterTodosFunc();
+  };
+  console.log(editing);
   return (
     <li className={style(status, display)}>
       <div className="view">
-        <input
-          className="toggle"
-          type="checkbox"
-          checked={completed}
-          onChange={() => {
-            onChangeStatusFunc(id, 'completed');
-            setPlay(false);
-            onFilterTodosFunc();
-          }}
-        ></input>
+        <input className="toggle" type="checkbox" checked={completed} onChange={handleChange} />
         <div className="label">
-          <span
-            className="title"
-            onClick={() => {
-              onChangeStatusFunc(id, 'completed');
-              setPlay(false);
-              onFilterTodosFunc();
-            }}
-          >
+          <span className="title" onClick={handleChange}>
             {description}
           </span>
-          <span className="description">{timerView}</span>
+          <span className="description">
+            {button}
+            {viewTimer}
+          </span>
           <span className="description">created {date} ago</span>
         </div>
-        <button
-          className="icon icon-edit"
-          title="edit"
-          onClick={() => onChangeStatusFunc(id, 'editing')}
-          disabled={completed}
-        ></button>
-        <button className="icon icon-destroy" title="destroy" onClick={() => onDeletedFunc(id)}></button>
+        <button className="icon icon-edit" title="edit" onClick={() => setEdit(true)} />
+        <button className="icon icon-destroy" title="destroy" onClick={() => onDeletedFunc(id)} />
       </div>
       {editing}
     </li>

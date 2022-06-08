@@ -9,7 +9,6 @@ import {
   FindMaxIdFunc,
   CreateNewTaskFunc,
   EditingTaskFunc,
-  TimerFormatFunc,
   OnChangeStatusFunc,
   NoParamsVoidFunc,
   OnFilterTodosFunc,
@@ -50,8 +49,6 @@ const App: FC = () => {
     if (countTodos === 0) setButton('All');
   }, [countTodos]);
 
-  const timerFormat: TimerFormatFunc = (num) => (num < 10 ? '0' + num : num.toString());
-
   const onFilterTodos: OnFilterTodosFunc = (name = button) => {
     const allTodods = todos.map((item) => {
       if (name === 'Active') {
@@ -73,8 +70,8 @@ const App: FC = () => {
       id: findMaxId(),
       created: new Date(),
       description,
-      initialMin: timerFormat(+min),
-      initialSec: timerFormat(+sec),
+      // initialMin: timerFormat(+min),
+      initialSec: +min * 60 + +sec,
       status: 'active',
       display: displayTodo(),
     };
@@ -110,6 +107,7 @@ const App: FC = () => {
   };
 
   const onChangeStatus: OnChangeStatusFunc = (id, status) => {
+    console.log(status);
     const newTodos = todos.map((todo) => {
       if (todo.id === id) todo.status = todo.status === 'active' ? (todo.status = status) : (todo.status = 'active');
       return todo;
@@ -134,10 +132,9 @@ const App: FC = () => {
     setTodos(newTodos);
   };
 
-  const onChangeTimer: OnChangeTimerFunc = (newMin, newSec, id) => {
+  const onChangeTimer: OnChangeTimerFunc = (newSec, id) => {
     const newArray = todos.map((item) => {
       if (item.id === id) {
-        item.initialMin = newMin;
         item.initialSec = newSec;
       }
       return item;
@@ -156,7 +153,6 @@ const App: FC = () => {
     <PropsContext.Provider
       value={{
         onChangeTimerFunc: onChangeTimer,
-        timerFormatFunc: timerFormat,
         onChangeStatusFunc: onChangeStatus,
         onDeletedFunc: onDeleted,
         editingTaskFunc: editingTask,
