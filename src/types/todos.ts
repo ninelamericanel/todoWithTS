@@ -1,15 +1,5 @@
 import React from 'react';
 
-export interface TodoFirst {
-  id: string;
-  created: Date;
-  description: string;
-  display: boolean;
-  status: string;
-  initialMin: string;
-  initialSec: string;
-}
-
 export interface Todo {
   id: string;
   created: Date;
@@ -25,16 +15,6 @@ export type FormType = {
   sec: string;
 };
 
-export interface PropsContextType {
-  onDeletedFunc: OnDeletedFunc;
-  editingTaskFunc: EditingTaskFunc;
-  onCompletedFunc: OnCompletedFunc;
-  onChangeTimerFunc: OnChangeTimerFunc;
-  clearCompleteFunc: NoParamsVoidFunc;
-  onFilterTodosFunc: OnFilterTodosFunc;
-  onAddTodoFunc: OnAddTodoFunc;
-}
-
 export type NoParamsVoidFunc = () => void;
 export type CreateNewTaskFunc = (description: string, min: string, sec: string) => Todo;
 export type DisplayTodoFunc = () => boolean;
@@ -49,4 +29,5 @@ export type HandleKeyUpFormFunc = (event: React.KeyboardEvent<HTMLFormElement>) 
 export type HandleKeyUpInputFunc = (event: React.KeyboardEvent<HTMLInputElement>) => void;
 export type HandleChangeInputFunc = (event: React.ChangeEvent<HTMLInputElement>) => void;
 export type HandleClickFilterButtonFunc = (nameButton: string) => void;
-export type DisabledButtonPlayFunc = () => boolean;
+export type HandleClickButtonTimerFunc = () => void | null;
+export type HandleEditTask = (value: string) => void;

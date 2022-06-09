@@ -18,7 +18,6 @@ import {
   HandleChangeInputFunc,
   OnCompletedFunc,
 } from 'types/todos';
-import { PropsContext } from 'context/props-context';
 import { TaskList } from 'components/TaskList';
 import { Filter } from 'components/Filter';
 
@@ -72,10 +71,8 @@ const App: FC = () => {
 
   const resetForm: NoParamsVoidFunc = () => setForm({ title: '', min: '', sec: '' });
 
-  const onAddTodo: OnAddTodoFunc = (description, min, sec) => {
-    const newTodo = createNewTask(description, min, sec);
-    setTodos([...todos, newTodo]);
-  };
+  const onAddTodo: OnAddTodoFunc = (description, min, sec) =>
+    setTodos([...todos, createNewTask(description, min, sec)]);
 
   const handleEnterForm: HandleKeyUpFormFunc = (event) => {
     const { title, min, sec } = form;
@@ -94,10 +91,7 @@ const App: FC = () => {
       setForm({ ...form, sec: target.value });
   };
 
-  const onDeleted: OnDeletedFunc = (id) => {
-    const newTodos: Todo[] = todos.filter((todo) => todo.id !== id);
-    setTodos(newTodos);
-  };
+  const onDeleted: OnDeletedFunc = (id) => setTodos(todos.filter((todo) => todo.id !== id));
 
   const onCompleted: OnCompletedFunc = (id) => {
     const newTodos = todos.map((todo) => {
@@ -109,10 +103,7 @@ const App: FC = () => {
     setTodos(newTodos);
   };
 
-  const clearComplete: NoParamsVoidFunc = () => {
-    const newTodos = todos.filter((item) => (!item.completed ? item : null));
-    setTodos(newTodos);
-  };
+  const clearComplete: NoParamsVoidFunc = () => setTodos(todos.filter((item) => (!item.completed ? item : null)));
 
   const editingTask: EditingTaskFunc = (value, id) => {
     const newTodos = todos.map((todo) => {
@@ -143,38 +134,33 @@ const App: FC = () => {
   const countLeft = todos.filter((item) => item.completed).length;
 
   return (
-    <PropsContext.Provider
-      value={{
-        onChangeTimerFunc: onChangeTimer,
-        onCompletedFunc: onCompleted,
-        onDeletedFunc: onDeleted,
-        editingTaskFunc: editingTask,
-        clearCompleteFunc: clearComplete,
-        onFilterTodosFunc: onFilterTodos,
-        onAddTodoFunc: onAddTodo,
-      }}
-    >
-      <section className="todoapp">
-        <header className="header">
-          <h1>todos</h1>
-          <form className="new-todo-form" onKeyUp={handleEnterForm}>
-            <NewTaskForm form={form} handleChange={handleChangeForm} />
-          </form>
-        </header>
-        <section className="main">
-          <TaskList todos={todos} />
-        </section>
-        <footer className="footer">
-          <span className="todo-count">{countLeft} items left</span>
-          <ul className="filters">
-            <Filter button={button} handleClick={handleClickFilterButton} />
-          </ul>
-          <button className="clear-completed" onClick={clearComplete}>
-            Clear completed
-          </button>
-        </footer>
+    <section className="todoapp">
+      <header className="header">
+        <h1>todos</h1>
+        <form className="new-todo-form" onKeyUp={handleEnterForm}>
+          <NewTaskForm handleChangeForm={handleChangeForm} form={form} />
+        </form>
+      </header>
+      <section className="main">
+        <TaskList
+          todos={todos}
+          editingTask={editingTask}
+          onChangeTimer={onChangeTimer}
+          onCompleted={onCompleted}
+          onFilterTodos={onFilterTodos}
+          onDeleted={onDeleted}
+        />
       </section>
-    </PropsContext.Provider>
+      <footer className="footer">
+        <span className="todo-count">{countLeft} items left</span>
+        <ul className="filters">
+          <Filter handleClickFilterButton={handleClickFilterButton} button={button} />
+        </ul>
+        <button className="clear-completed" onClick={clearComplete}>
+          Clear completed
+        </button>
+      </footer>
+    </section>
   );
 };
 

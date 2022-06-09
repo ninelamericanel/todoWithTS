@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 import './NewTaskForm.scss';
 
 import { FormType, HandleChangeInputFunc } from 'types/todos';
-
 interface Props {
+  handleChangeForm: HandleChangeInputFunc;
   form: FormType;
-  handleChange: HandleChangeInputFunc;
 }
 
-const NewTaskForm: React.FC<Props> = ({ handleChange, form: { title, min, sec } }) => {
+const NewTaskForm: FC<Props> = ({ handleChangeForm, form: { title, min, sec } }) => {
   const forms = [
     { placeholder: 'What needs to be done?', className: 'new-todo', dataAction: 'task-name', value: title },
     { placeholder: 'Min', className: 'new-todo-form__timer', dataAction: 'task-min', value: min },
@@ -18,7 +17,7 @@ const NewTaskForm: React.FC<Props> = ({ handleChange, form: { title, min, sec } 
   const nodesForm = forms.map((form, id) => {
     return (
       <input
-        onChange={handleChange}
+        onChange={handleChangeForm}
         autoFocus
         placeholder={form.placeholder}
         className={form.className}

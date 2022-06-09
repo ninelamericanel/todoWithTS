@@ -3,16 +3,16 @@ import React, { FC } from 'react';
 import { HandleClickFilterButtonFunc } from 'types/todos';
 
 interface Props {
+  handleClickFilterButton: HandleClickFilterButtonFunc;
   button: string;
-  handleClick: HandleClickFilterButtonFunc;
 }
 
-const Filter: FC<Props> = ({ button, handleClick }) => {
+const Filter: FC<Props> = ({ handleClickFilterButton, button }) => {
   const buttonNodes = ['All', 'Active', 'Completed'].map((name, i) => {
     const classSelected = name === button ? 'selected' : null;
     return (
       <li key={i}>
-        <button className={classSelected || undefined} onClick={() => handleClick(name)}>
+        <button className={classSelected || undefined} onClick={() => handleClickFilterButton(name)}>
           {name}
         </button>
       </li>

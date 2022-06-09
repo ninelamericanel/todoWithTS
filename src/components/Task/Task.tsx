@@ -1,36 +1,54 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 
 import './Task.scss';
 
 import { EditInput } from 'components/EditInput';
-import { PropsContext } from 'context/props-context';
-import { NoParamsVoidFunc, TimerFormatFunc, Todo } from 'types/todos';
+import {
+  EditingTaskFunc,
+  HandleClickButtonTimerFunc,
+  HandleEditTask,
+  NoParamsVoidFunc,
+  OnChangeTimerFunc,
+  OnCompletedFunc,
+  OnDeletedFunc,
+  OnFilterTodosFunc,
+  TimerFormatFunc,
+  Todo,
+} from 'types/todos';
 
 import style from './style';
 
 interface Props {
   todo: Todo;
+  editingTask: EditingTaskFunc;
+  onChangeTimer: OnChangeTimerFunc;
+  onCompleted: OnCompletedFunc;
+  onFilterTodos: OnFilterTodosFunc;
+  onDeleted: OnDeletedFunc;
 }
 
-const Task: FC<Props> = ({ todo: { id, created, display, initialSec, description, completed } }) => {
+const Task: FC<Props> = ({
+  editingTask,
+  onChangeTimer,
+  onCompleted,
+  onFilterTodos,
+  onDeleted,
+  todo: { id, created, display, initialSec, description, completed },
+}) => {
   const [play, setPlay] = useState(false);
   const [seconds, setSeconds] = useState(initialSec);
   const [edit, setEdit] = useState(false);
-  const { onChangeTimerFunc, onCompletedFunc, onFilterTodosFunc, onDeletedFunc } = useContext(PropsContext);
-  const turnOnTimer = () => {
-    setPlay(false);
-  };
-  const clock = () => {
+  const turnOnTimer: NoParamsVoidFunc = () => setPlay(false);
+  const clock: NoParamsVoidFunc = () => {
     if (seconds > 0) {
       setSeconds(seconds - 1);
     } else {
       turnOnTimer();
-      onChangeTimerFunc(seconds, id);
-      onCompletedFunc(id);
+      onChangeTimer(seconds, id);
+      onCompleted(id);
     }
   };
-
   useEffect(() => {
     if (play) {
       const interval = setInterval(() => clock(), 1000);
@@ -38,20 +56,22 @@ const Task: FC<Props> = ({ todo: { id, created, display, initialSec, description
         clearInterval(interval);
       };
     } else {
-      onChangeTimerFunc(seconds, id);
+      onChangeTimer(seconds, id);
     }
   }, [seconds, play]);
   const date = formatDistanceToNow(new Date(created), { includeSeconds: true });
-
   const timerFormat: TimerFormatFunc = (num) => (num < 10 ? '0' + num : num.toString());
   const handleChangeComplete: NoParamsVoidFunc = () => {
-    onCompletedFunc(id);
+    onCompleted(id);
     setPlay(false);
-    onFilterTodosFunc();
+    onFilterTodos();
   };
   const reset: NoParamsVoidFunc = () => setEdit(false);
-
-  const handleClickButtonTimer = () => (!completed && seconds > 0 ? setPlay(true) : null);
+  const handleClickButtonTimer: HandleClickButtonTimerFunc = () => (!completed && seconds > 0 ? setPlay(true) : null);
+  const handleEditTask: HandleEditTask = (value) => {
+    editingTask(value, id);
+    setEdit(false);
+  };
 
   const buttonTimer = play ? (
     <button onClick={() => setPlay(false)} className="icon icon-pause" />
@@ -59,7 +79,7 @@ const Task: FC<Props> = ({ todo: { id, created, display, initialSec, description
     <button onClick={handleClickButtonTimer} className="icon icon-play" />
   );
 
-  const editing = edit ? <EditInput description={description} id={id} reset={reset} /> : null;
+  const editing = edit ? <EditInput description={description} reset={reset} handleEditTask={handleEditTask} /> : null;
   return (
     <li className={style(completed, display, edit)}>
       <div className="view">
@@ -75,7 +95,7 @@ const Task: FC<Props> = ({ todo: { id, created, display, initialSec, description
           <span className="description">created {date} ago</span>
         </div>
         <button className="icon icon-edit" title="edit" onClick={() => setEdit(true)} />
-        <button className="icon icon-destroy" title="destroy" onClick={() => onDeletedFunc(id)} />
+        <button className="icon icon-destroy" title="destroy" onClick={() => onDeleted(id)} />
       </div>
       {editing}
     </li>

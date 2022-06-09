@@ -1,17 +1,15 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
-import { PropsContext } from 'context/props-context';
 import { HandleChangeInputFunc, HandleKeyUpInputFunc, NoParamsVoidFunc } from 'types/todos';
 
 interface EditInputProps {
   description: string;
-  id: string;
   reset: NoParamsVoidFunc;
+  handleEditTask: (value: string) => void;
 }
 
-const EditInput: React.FC<EditInputProps> = ({ description, id, reset }) => {
+const EditInput: React.FC<EditInputProps> = ({ description, reset, handleEditTask }) => {
   const [value, setValue] = useState(description);
-  const { editingTaskFunc } = useContext(PropsContext);
   const inputElement = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -21,18 +19,14 @@ const EditInput: React.FC<EditInputProps> = ({ description, id, reset }) => {
   }, [inputElement.current]);
 
   const handleChangeEditInput: HandleChangeInputFunc = (event) => {
-    const { target } = event;
-    const eventValue = (target as HTMLButtonElement).value;
+    const eventValue = (event.target as HTMLButtonElement).value;
     setValue(eventValue);
   };
 
   const handleKeyUpEditInput: HandleKeyUpInputFunc = (event) => {
     if (event.key === 'Enter') {
-      if (value === description) {
-        reset();
-      } else {
-        editingTaskFunc(value, id);
-      }
+      if (value === description) reset();
+      handleEditTask(value);
     }
     if (event.key === 'Escape') reset();
   };
