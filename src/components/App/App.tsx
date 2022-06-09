@@ -48,7 +48,7 @@ const App: FC = () => {
       if (name === 'Active') {
         item.display = !item.completed;
       } else if (name === 'Completed') {
-        item.display = !item.completed;
+        item.display = item.completed;
       } else {
         item.display = true;
       }

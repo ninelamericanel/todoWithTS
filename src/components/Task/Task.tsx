@@ -15,29 +15,32 @@ interface Props {
 
 const Task: FC<Props> = ({ todo: { id, created, display, initialSec, description, completed } }) => {
   const [play, setPlay] = useState(false);
-  const [timer, setTimer] = useState(initialSec);
+  const [seconds, setSeconds] = useState(initialSec);
   const [edit, setEdit] = useState(false);
   const { onChangeTimerFunc, onCompletedFunc, onFilterTodosFunc, onDeletedFunc } = useContext(PropsContext);
   const turnOnTimer = () => {
     setPlay(false);
   };
   const clock = () => {
-    if (timer === 0) {
+    if (seconds > 0) {
+      setSeconds(seconds - 1);
+    } else {
       turnOnTimer();
-      onChangeTimerFunc(timer, id);
+      onChangeTimerFunc(seconds, id);
+      onCompletedFunc(id);
     }
-    setTimer(timer - 1);
   };
 
   useEffect(() => {
     if (play) {
       const interval = setInterval(() => clock(), 1000);
       return () => {
-        onChangeTimerFunc(timer, id);
         clearInterval(interval);
       };
+    } else {
+      onChangeTimerFunc(seconds, id);
     }
-  }, [timer, play]);
+  }, [seconds, play]);
   const date = formatDistanceToNow(new Date(created), { includeSeconds: true });
 
   const timerFormat: TimerFormatFunc = (num) => (num < 10 ? '0' + num : num.toString());
@@ -48,12 +51,13 @@ const Task: FC<Props> = ({ todo: { id, created, display, initialSec, description
   };
   const reset: NoParamsVoidFunc = () => setEdit(false);
 
-  const button =
-    play && !completed ? (
-      <button onClick={() => setPlay(false)} className="icon icon-pause" />
-    ) : (
-      <button onClick={() => setPlay(true)} className="icon icon-play" />
-    );
+  const handleClickButtonTimer = () => (!completed && seconds > 0 ? setPlay(true) : null);
+
+  const buttonTimer = play ? (
+    <button onClick={() => setPlay(false)} className="icon icon-pause" />
+  ) : (
+    <button onClick={handleClickButtonTimer} className="icon icon-play" />
+  );
 
   const editing = edit ? <EditInput description={description} id={id} reset={reset} /> : null;
   return (
@@ -65,8 +69,8 @@ const Task: FC<Props> = ({ todo: { id, created, display, initialSec, description
             {description}
           </span>
           <span className="description">
-            {button}
-            {`${timerFormat(Math.floor(timer / 60))} : ${timerFormat(timer % 60)}`}
+            {buttonTimer}
+            {`${timerFormat(Math.floor(seconds / 60))} : ${timerFormat(seconds % 60)}`}
           </span>
           <span className="description">created {date} ago</span>
         </div>
