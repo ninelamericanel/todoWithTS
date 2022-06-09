@@ -18,8 +18,9 @@ import {
   HandleChangeInputFunc,
   OnCompletedFunc,
 } from 'types/todos';
-import { TaskList } from 'components/TaskList';
 import { Filter } from 'components/Filter';
+
+import { Task } from '../Task';
 
 const App: FC = () => {
   const [todos, setTodos] = useState<Todo[] | []>([]);
@@ -142,14 +143,21 @@ const App: FC = () => {
         </form>
       </header>
       <section className="main">
-        <TaskList
-          todos={todos}
-          editingTask={editingTask}
-          onChangeTimer={onChangeTimer}
-          onCompleted={onCompleted}
-          onFilterTodos={onFilterTodos}
-          onDeleted={onDeleted}
-        />
+        <ul className="todo-list">
+          {todos.map((todo) => {
+            return (
+              <Task
+                editingTask={editingTask}
+                onChangeTimer={onChangeTimer}
+                onCompleted={onCompleted}
+                onFilterTodos={onFilterTodos}
+                onDeleted={onDeleted}
+                key={todo.id}
+                todo={todo}
+              />
+            );
+          })}
+        </ul>
       </section>
       <footer className="footer">
         <span className="todo-count">{countLeft} items left</span>
