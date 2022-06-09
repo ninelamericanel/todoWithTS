@@ -107,9 +107,12 @@ const App: FC = () => {
   };
 
   const onChangeStatus: OnChangeStatusFunc = (id, status) => {
-    console.log(status);
     const newTodos = todos.map((todo) => {
-      if (todo.id === id) todo.status = todo.status === 'active' ? (todo.status = status) : (todo.status = 'active');
+      if (todo.id === id) {
+        console.log(todo.status === 'active' || todo.status !== status);
+        todo.status =
+          todo.status === 'active' || todo.status !== status ? (todo.status = status) : (todo.status = 'active');
+      }
       return todo;
     });
     setTodos(newTodos);
@@ -125,7 +128,7 @@ const App: FC = () => {
       if (todo.id === id) {
         todo.description = value;
         todo.created = new Date();
-        todo.status = 'active';
+        console.log(todo.status);
       }
       return todo;
     });
