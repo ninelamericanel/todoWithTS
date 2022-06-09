@@ -5,7 +5,7 @@ import './Task.scss';
 
 import { EditInput } from 'components/EditInput';
 import { PropsContext } from 'context/props-context';
-import { TimerFormatFunc, Todo } from 'types/todos';
+import { NoParamsVoidFunc, TimerFormatFunc, Todo } from 'types/todos';
 
 import style from './style';
 
@@ -13,9 +13,10 @@ interface Props {
   todo: Todo;
 }
 
-const Task: FC<Props> = ({ todo: { id, created, display, initialSec, description, status } }) => {
+const Task: FC<Props> = ({ todo: { id, created, display, initialSec, description, completed } }) => {
   const [play, setPlay] = useState(false);
   const [timer, setTimer] = useState(initialSec);
+  const [edit, setEdit] = useState(false);
   const { onChangeTimerFunc } = useContext(PropsContext);
   const turnOnTimer = () => {
     setPlay(false);
@@ -37,16 +38,16 @@ const Task: FC<Props> = ({ todo: { id, created, display, initialSec, description
       };
     }
   }, [timer, play]);
-  const completed = status === 'completed';
   const date = formatDistanceToNow(new Date(created), { includeSeconds: true });
 
-  const { onChangeStatusFunc, onFilterTodosFunc, onDeletedFunc } = useContext(PropsContext);
+  const { onCompletedFunc, onFilterTodosFunc, onDeletedFunc } = useContext(PropsContext);
   const timerFormat: TimerFormatFunc = (num) => (num < 10 ? '0' + num : num.toString());
   const handleChange = () => {
-    onChangeStatusFunc(id, 'completed');
+    onCompletedFunc(id);
     setPlay(false);
     onFilterTodosFunc();
   };
+  const reset: NoParamsVoidFunc = () => setEdit(false);
 
   const button = play ? (
     <button onClick={() => setPlay(false)} className="icon icon-pause" />
@@ -54,9 +55,9 @@ const Task: FC<Props> = ({ todo: { id, created, display, initialSec, description
     <button onClick={() => setPlay(true)} className="icon icon-play" />
   );
 
-  const editing = status === 'editing' ? <EditInput description={description} id={id} /> : null;
+  const editing = edit ? <EditInput description={description} id={id} reset={reset} /> : null;
   return (
-    <li className={style(status, display)}>
+    <li className={style(completed, display, edit)}>
       <div className="view">
         <input className="toggle" type="checkbox" checked={completed} onChange={handleChange} />
         <div className="label">
@@ -69,7 +70,7 @@ const Task: FC<Props> = ({ todo: { id, created, display, initialSec, description
           </span>
           <span className="description">created {date} ago</span>
         </div>
-        <button className="icon icon-edit" title="edit" onClick={() => onChangeStatusFunc(id, 'editing')} />
+        <button className="icon icon-edit" title="edit" onClick={() => setEdit(true)} />
         <button className="icon icon-destroy" title="destroy" onClick={() => onDeletedFunc(id)} />
       </div>
       {editing}

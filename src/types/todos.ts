@@ -15,7 +15,7 @@ export interface Todo {
   created: Date;
   description: string;
   display: boolean;
-  status: string;
+  completed: boolean;
   initialSec: number;
 }
 
@@ -28,7 +28,7 @@ export type FormType = {
 export interface PropsContextType {
   onDeletedFunc: OnDeletedFunc;
   editingTaskFunc: EditingTaskFunc;
-  onChangeStatusFunc: OnChangeStatusFunc;
+  onCompletedFunc: OnCompletedFunc;
   onChangeTimerFunc: OnChangeTimerFunc;
   clearCompleteFunc: NoParamsVoidFunc;
   onFilterTodosFunc: OnFilterTodosFunc;
@@ -39,7 +39,7 @@ export type NoParamsVoidFunc = () => void;
 export type CreateNewTaskFunc = (description: string, min: string, sec: string) => Todo;
 export type FindMaxIdFunc = () => string;
 export type DisplayTodoFunc = () => boolean;
-export type OnChangeStatusFunc = (id: string, status: string) => void;
+export type OnCompletedFunc = (id: string) => void;
 export type OnDeletedFunc = (id: string) => void;
 export type OnAddTodoFunc = (name: string, min: string, sec: string) => void;
 export type OnFilterTodosFunc = (name?: string) => void;

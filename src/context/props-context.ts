@@ -5,7 +5,7 @@ import { PropsContextType } from 'types/todos';
 const defaultValue: PropsContextType = {
   onDeletedFunc: () => undefined,
   editingTaskFunc: () => undefined,
-  onChangeStatusFunc: () => undefined,
+  onCompletedFunc: () => undefined,
   onChangeTimerFunc: () => undefined,
   clearCompleteFunc: () => undefined,
   onFilterTodosFunc: () => undefined,

@@ -1,16 +1,17 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 
 import { PropsContext } from 'context/props-context';
-import { HandleChangeFunc, HandleKeyUpInputFunc } from 'types/todos';
+import { HandleChangeFunc, HandleKeyUpInputFunc, NoParamsVoidFunc } from 'types/todos';
 
 interface EditInputProps {
   description: string;
   id: string;
+  reset: NoParamsVoidFunc;
 }
 
-const EditInput: React.FC<EditInputProps> = ({ description, id }) => {
+const EditInput: React.FC<EditInputProps> = ({ description, id, reset }) => {
   const [value, setValue] = useState(description);
-  const { editingTaskFunc, onChangeStatusFunc } = useContext(PropsContext);
+  const { editingTaskFunc } = useContext(PropsContext);
   const inputElement = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -28,12 +29,12 @@ const EditInput: React.FC<EditInputProps> = ({ description, id }) => {
   const handleKeyUp: HandleKeyUpInputFunc = (event) => {
     if (event.key === 'Enter') {
       if (value === description) {
-        onChangeStatusFunc(id, 'editing');
+        reset();
       } else {
         editingTaskFunc(value, id);
       }
     }
-    if (event.key === 'Escape') onChangeStatusFunc(id, 'editing');
+    if (event.key === 'Escape') reset();
   };
 
   return (
@@ -45,7 +46,7 @@ const EditInput: React.FC<EditInputProps> = ({ description, id }) => {
       onChange={handleChange}
       onKeyUp={handleKeyUp}
       autoFocus
-    ></input>
+    />
   );
 };
 

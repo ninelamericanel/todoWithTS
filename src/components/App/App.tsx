@@ -9,7 +9,6 @@ import {
   FindMaxIdFunc,
   CreateNewTaskFunc,
   EditingTaskFunc,
-  OnChangeStatusFunc,
   NoParamsVoidFunc,
   OnFilterTodosFunc,
   OnChangeTimerFunc,
@@ -18,6 +17,7 @@ import {
   HandleKeyUpFunc,
   FormType,
   HandleChangeFunc,
+  OnCompletedFunc,
 } from 'types/todos';
 import { PropsContext } from 'context/props-context';
 import { TaskList } from 'components/TaskList';
@@ -52,9 +52,9 @@ const App: FC = () => {
   const onFilterTodos: OnFilterTodosFunc = (name = button) => {
     const allTodods = todos.map((item) => {
       if (name === 'Active') {
-        item.display = item.status === 'active';
+        item.display = !item.completed;
       } else if (name === 'Completed') {
-        item.display = item.status === 'completed';
+        item.display = !item.completed;
       } else {
         item.display = true;
       }
@@ -72,7 +72,7 @@ const App: FC = () => {
       description,
       // initialMin: timerFormat(+min),
       initialSec: +min * 60 + +sec,
-      status: 'active',
+      completed: false,
       display: displayTodo(),
     };
   };
@@ -106,12 +106,10 @@ const App: FC = () => {
     setTodos(newTodos);
   };
 
-  const onChangeStatus: OnChangeStatusFunc = (id, status) => {
+  const onCompleted: OnCompletedFunc = (id) => {
     const newTodos = todos.map((todo) => {
       if (todo.id === id) {
-        console.log(todo.status === 'active' || todo.status !== status);
-        todo.status =
-          todo.status === 'active' || todo.status !== status ? (todo.status = status) : (todo.status = 'active');
+        todo.completed = !todo.completed;
       }
       return todo;
     });
@@ -119,7 +117,7 @@ const App: FC = () => {
   };
 
   const clearComplete: NoParamsVoidFunc = () => {
-    const newTodos = todos.filter((item) => (item.status === ('active' || 'editing') ? item : null));
+    const newTodos = todos.filter((item) => (!item.completed ? item : null));
     setTodos(newTodos);
   };
 
@@ -128,7 +126,6 @@ const App: FC = () => {
       if (todo.id === id) {
         todo.description = value;
         todo.created = new Date();
-        console.log(todo.status);
       }
       return todo;
     });
@@ -150,13 +147,13 @@ const App: FC = () => {
       onFilterTodos(nameButton);
     }
   };
-  const countLeft = todos.filter((item) => item.status === 'completed').length;
+  const countLeft = todos.filter((item) => item.completed).length;
 
   return (
     <PropsContext.Provider
       value={{
         onChangeTimerFunc: onChangeTimer,
-        onChangeStatusFunc: onChangeStatus,
+        onCompletedFunc: onCompleted,
         onDeletedFunc: onDeleted,
         editingTaskFunc: editingTask,
         clearCompleteFunc: clearComplete,

@@ -1,6 +1,7 @@
-const style = (status: string, display: boolean): string => {
+const style = (completed: boolean, display: boolean, edit: boolean): string => {
+  if (edit) return 'editing';
   if (!display) return 'display-none';
-  if (status === 'completed' || status === 'editing') return `${status}`;
+  if (completed) return 'completed';
   return '';
 };
 
