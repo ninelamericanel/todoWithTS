@@ -19,8 +19,7 @@ import {
   OnCompletedFunc,
 } from 'types/todos';
 import { Filter } from 'components/Filter';
-
-import { Task } from '../Task';
+import { Task } from 'components/Task';
 
 const App: FC = () => {
   const [todos, setTodos] = useState<Todo[] | []>([]);
