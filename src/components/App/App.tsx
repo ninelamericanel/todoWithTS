@@ -6,7 +6,6 @@ import {
   Todo,
   OnAddTodoFunc,
   OnDeletedFunc,
-  FindMaxIdFunc,
   CreateNewTaskFunc,
   EditingTaskFunc,
   NoParamsVoidFunc,
@@ -29,11 +28,6 @@ const App: FC = () => {
   const [button, setButton] = useState('All');
 
   const countTodos = todos.length;
-
-  const findMaxId: FindMaxIdFunc = () => {
-    const ids = todos.map((item) => +item.id);
-    return ids.length > 0 ? (Math.max(...ids) + 1).toString() : '1';
-  };
 
   useEffect(() => {
     const todosFromLS = JSON.parse(localStorage.todos).length ? localStorage.todos : JSON.stringify([...todos]);
@@ -67,7 +61,7 @@ const App: FC = () => {
 
   const createNewTask: CreateNewTaskFunc = (description, min, sec) => {
     return {
-      id: findMaxId(),
+      id: Date.now().toString(),
       created: new Date(),
       description,
       initialSec: +min * 60 + +sec,
