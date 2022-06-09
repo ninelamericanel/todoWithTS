@@ -37,7 +37,6 @@ export interface PropsContextType {
 
 export type NoParamsVoidFunc = () => void;
 export type CreateNewTaskFunc = (description: string, min: string, sec: string) => Todo;
-export type FindMaxIdFunc = () => string;
 export type DisplayTodoFunc = () => boolean;
 export type OnCompletedFunc = (id: string) => void;
 export type OnDeletedFunc = (id: string) => void;
@@ -46,8 +45,8 @@ export type OnFilterTodosFunc = (name?: string) => void;
 export type EditingTaskFunc = (value: string, id: string) => void;
 export type TimerFormatFunc = (num: number) => string;
 export type OnChangeTimerFunc = (newSec: number, id: string) => void;
-export type HandleKeyUpFunc = (event: React.KeyboardEvent<HTMLFormElement>) => void;
-export type HandleChangeFunc = (event: React.ChangeEvent<HTMLInputElement>) => void;
+export type HandleKeyUpFormFunc = (event: React.KeyboardEvent<HTMLFormElement>) => void;
 export type HandleKeyUpInputFunc = (event: React.KeyboardEvent<HTMLInputElement>) => void;
-export type HandleClickFunc = (nameButton: string) => void;
+export type HandleChangeInputFunc = (event: React.ChangeEvent<HTMLInputElement>) => void;
+export type HandleClickFilterButtonFunc = (nameButton: string) => void;
 export type DisabledButtonPlayFunc = () => boolean;

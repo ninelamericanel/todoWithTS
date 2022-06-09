@@ -17,7 +17,7 @@ const Task: FC<Props> = ({ todo: { id, created, display, initialSec, description
   const [play, setPlay] = useState(false);
   const [timer, setTimer] = useState(initialSec);
   const [edit, setEdit] = useState(false);
-  const { onChangeTimerFunc } = useContext(PropsContext);
+  const { onChangeTimerFunc, onCompletedFunc, onFilterTodosFunc, onDeletedFunc } = useContext(PropsContext);
   const turnOnTimer = () => {
     setPlay(false);
   };
@@ -40,28 +40,28 @@ const Task: FC<Props> = ({ todo: { id, created, display, initialSec, description
   }, [timer, play]);
   const date = formatDistanceToNow(new Date(created), { includeSeconds: true });
 
-  const { onCompletedFunc, onFilterTodosFunc, onDeletedFunc } = useContext(PropsContext);
   const timerFormat: TimerFormatFunc = (num) => (num < 10 ? '0' + num : num.toString());
-  const handleChange = () => {
+  const handleChangeComplete: NoParamsVoidFunc = () => {
     onCompletedFunc(id);
     setPlay(false);
     onFilterTodosFunc();
   };
   const reset: NoParamsVoidFunc = () => setEdit(false);
 
-  const button = play ? (
-    <button onClick={() => setPlay(false)} className="icon icon-pause" />
-  ) : (
-    <button onClick={() => setPlay(true)} className="icon icon-play" />
-  );
+  const button =
+    play && !completed ? (
+      <button onClick={() => setPlay(false)} className="icon icon-pause" />
+    ) : (
+      <button onClick={() => setPlay(true)} className="icon icon-play" />
+    );
 
   const editing = edit ? <EditInput description={description} id={id} reset={reset} /> : null;
   return (
     <li className={style(completed, display, edit)}>
       <div className="view">
-        <input className="toggle" type="checkbox" checked={completed} onChange={handleChange} />
+        <input className="toggle" type="checkbox" checked={completed} onChange={handleChangeComplete} />
         <div className="label">
-          <span className="title" onClick={handleChange}>
+          <span className="title" onClick={handleChangeComplete}>
             {description}
           </span>
           <span className="description">

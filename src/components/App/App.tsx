@@ -13,10 +13,10 @@ import {
   OnFilterTodosFunc,
   OnChangeTimerFunc,
   DisplayTodoFunc,
-  HandleClickFunc,
-  HandleKeyUpFunc,
+  HandleClickFilterButtonFunc,
+  HandleKeyUpFormFunc,
   FormType,
-  HandleChangeFunc,
+  HandleChangeInputFunc,
   OnCompletedFunc,
 } from 'types/todos';
 import { PropsContext } from 'context/props-context';
@@ -70,7 +70,6 @@ const App: FC = () => {
       id: findMaxId(),
       created: new Date(),
       description,
-      // initialMin: timerFormat(+min),
       initialSec: +min * 60 + +sec,
       completed: false,
       display: displayTodo(),
@@ -84,7 +83,7 @@ const App: FC = () => {
     setTodos([...todos, newTodo]);
   };
 
-  const handleKeyUp: HandleKeyUpFunc = (event) => {
+  const handleEnterForm: HandleKeyUpFormFunc = (event) => {
     const { title, min, sec } = form;
     if (event.key === 'Enter' && title.trim()) {
       onAddTodo(title, min, sec);
@@ -92,7 +91,7 @@ const App: FC = () => {
     }
   };
 
-  const handleChange: HandleChangeFunc = (event) => {
+  const handleChangeForm: HandleChangeInputFunc = (event) => {
     const { target } = event;
     if (target?.dataset.action === 'task-name') setForm({ ...form, title: target.value });
     if (target?.dataset.action === 'task-min' && (+target.value || target.value === '') && +target.value <= 59)
@@ -141,7 +140,7 @@ const App: FC = () => {
     });
     setTodos(newArray);
   };
-  const handleClick: HandleClickFunc = (nameButton) => {
+  const handleClickFilterButton: HandleClickFilterButtonFunc = (nameButton) => {
     if (countTodos) {
       setButton(nameButton);
       onFilterTodos(nameButton);
@@ -164,8 +163,8 @@ const App: FC = () => {
       <section className="todoapp">
         <header className="header">
           <h1>todos</h1>
-          <form className="new-todo-form" onKeyUp={handleKeyUp}>
-            <NewTaskForm form={form} handleChange={handleChange} />
+          <form className="new-todo-form" onKeyUp={handleEnterForm}>
+            <NewTaskForm form={form} handleChange={handleChangeForm} />
           </form>
         </header>
         <section className="main">
@@ -174,7 +173,7 @@ const App: FC = () => {
         <footer className="footer">
           <span className="todo-count">{countLeft} items left</span>
           <ul className="filters">
-            <Filter button={button} handleClick={handleClick} />
+            <Filter button={button} handleClick={handleClickFilterButton} />
           </ul>
           <button className="clear-completed" onClick={clearComplete}>
             Clear completed

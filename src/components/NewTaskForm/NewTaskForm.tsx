@@ -1,11 +1,11 @@
 import React from 'react';
 import './NewTaskForm.scss';
 
-import { FormType, HandleChangeFunc } from 'types/todos';
+import { FormType, HandleChangeInputFunc } from 'types/todos';
 
 interface Props {
   form: FormType;
-  handleChange: HandleChangeFunc;
+  handleChange: HandleChangeInputFunc;
 }
 
 const NewTaskForm: React.FC<Props> = ({ handleChange, form: { title, min, sec } }) => {

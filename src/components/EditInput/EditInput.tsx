@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 
 import { PropsContext } from 'context/props-context';
-import { HandleChangeFunc, HandleKeyUpInputFunc, NoParamsVoidFunc } from 'types/todos';
+import { HandleChangeInputFunc, HandleKeyUpInputFunc, NoParamsVoidFunc } from 'types/todos';
 
 interface EditInputProps {
   description: string;
@@ -20,13 +20,13 @@ const EditInput: React.FC<EditInputProps> = ({ description, id, reset }) => {
     }
   }, [inputElement.current]);
 
-  const handleChange: HandleChangeFunc = (event) => {
+  const handleChangeEditInput: HandleChangeInputFunc = (event) => {
     const { target } = event;
     const eventValue = (target as HTMLButtonElement).value;
     setValue(eventValue);
   };
 
-  const handleKeyUp: HandleKeyUpInputFunc = (event) => {
+  const handleKeyUpEditInput: HandleKeyUpInputFunc = (event) => {
     if (event.key === 'Enter') {
       if (value === description) {
         reset();
@@ -43,8 +43,8 @@ const EditInput: React.FC<EditInputProps> = ({ description, id, reset }) => {
       ref={inputElement}
       className="edit"
       value={value}
-      onChange={handleChange}
-      onKeyUp={handleKeyUp}
+      onChange={handleChangeEditInput}
+      onKeyUp={handleKeyUpEditInput}
       autoFocus
     />
   );

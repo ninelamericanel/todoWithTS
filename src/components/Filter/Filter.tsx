@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 
-import { HandleClickFunc } from 'types/todos';
+import { HandleClickFilterButtonFunc } from 'types/todos';
 
 interface Props {
   button: string;
-  handleClick: HandleClickFunc;
+  handleClick: HandleClickFilterButtonFunc;
 }
 
 const Filter: FC<Props> = ({ button, handleClick }) => {
