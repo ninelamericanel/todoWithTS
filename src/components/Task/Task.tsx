@@ -29,11 +29,11 @@ interface Props {
 }
 
 const Task: FC<Props> = ({
+  onFilterTodos,
+  onDeleted,
   editingTask,
   onChangeTimer,
   onCompleted,
-  onFilterTodos,
-  onDeleted,
   todo: { id, created, display, initialSec, description, completed },
 }) => {
   const [play, setPlay] = useState(false);
@@ -45,7 +45,7 @@ const Task: FC<Props> = ({
       setSeconds(seconds - 1);
     } else {
       turnOnTimer();
-      onChangeTimer(seconds, id);
+      onChangeTimer(id, seconds);
       onCompleted(id);
     }
   };
@@ -56,7 +56,7 @@ const Task: FC<Props> = ({
         clearInterval(interval);
       };
     } else {
-      onChangeTimer(seconds, id);
+      onChangeTimer(id, seconds);
     }
   }, [seconds, play]);
   const date = formatDistanceToNow(new Date(created), { includeSeconds: true });
@@ -69,16 +69,14 @@ const Task: FC<Props> = ({
   const reset: NoParamsVoidFunc = () => setEdit(false);
   const handleClickButtonTimer: HandleClickButtonTimerFunc = () => (!completed && seconds > 0 ? setPlay(true) : null);
   const handleEditTask: HandleEditTask = (value) => {
-    editingTask(value, id);
+    editingTask(id, value);
     setEdit(false);
   };
-
   const buttonTimer = play ? (
     <button onClick={() => setPlay(false)} className="icon icon-pause" />
   ) : (
     <button onClick={handleClickButtonTimer} className="icon icon-play" />
   );
-
   const editing = edit ? <EditInput description={description} reset={reset} handleEditTask={handleEditTask} /> : null;
   return (
     <li className={style(completed, display, edit)}>

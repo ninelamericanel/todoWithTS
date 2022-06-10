@@ -5,7 +5,6 @@ import { NewTaskForm } from 'components/NewTaskForm';
 import {
   Todo,
   OnAddTodoFunc,
-  OnDeletedFunc,
   CreateNewTaskFunc,
   EditingTaskFunc,
   NoParamsVoidFunc,
@@ -17,12 +16,15 @@ import {
   FormType,
   HandleChangeInputFunc,
   OnCompletedFunc,
+  MapperFunc,
+  OnDeletedFunc,
+  FilterFunc,
 } from 'types/todos';
 import { Filter } from 'components/Filter';
 import { Task } from 'components/Task';
 
 const App: FC = () => {
-  const [todos, setTodos] = useState<Todo[] | []>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [form, setForm] = useState<FormType>({ title: '', min: '', sec: '' });
   const [button, setButton] = useState('All');
 
@@ -31,7 +33,7 @@ const App: FC = () => {
   useEffect(() => {
     const todosFromLS = JSON.parse(localStorage.todos).length ? localStorage.todos : JSON.stringify([...todos]);
     localStorage.setItem('todos', todosFromLS);
-    setTodos(JSON.parse(localStorage.todos));
+    setTodos(JSON.parse(todosFromLS));
   }, []);
 
   useEffect(() => {
@@ -42,22 +44,7 @@ const App: FC = () => {
     if (countTodos === 0) setButton('All');
   }, [countTodos]);
 
-  const onFilterTodos: OnFilterTodosFunc = (name = button) => {
-    const allTodods = todos.map((item) => {
-      if (name === 'Active') {
-        item.display = !item.completed;
-      } else if (name === 'Completed') {
-        item.display = item.completed;
-      } else {
-        item.display = true;
-      }
-      return item;
-    });
-    setTodos(allTodods);
-  };
-
   const displayTodo: DisplayTodoFunc = () => button !== 'Completed';
-
   const createNewTask: CreateNewTaskFunc = (description, min, sec) => {
     return {
       id: Date.now().toString(),
@@ -68,12 +55,47 @@ const App: FC = () => {
       display: displayTodo(),
     };
   };
-
   const resetForm: NoParamsVoidFunc = () => setForm({ title: '', min: '', sec: '' });
-
   const onAddTodo: OnAddTodoFunc = (description, min, sec) =>
     setTodos([...todos, createNewTask(description, min, sec)]);
-
+  const mapper: MapperFunc = (callback) => setTodos(todos.map(callback));
+  const onChangeTimer: OnChangeTimerFunc = (id, newSec) => {
+    mapper((todo: Todo) => {
+      if (todo.id === id) todo.initialSec = newSec;
+      return todo;
+    });
+  };
+  const onCompleted: OnCompletedFunc = (id) => {
+    mapper((todo) => {
+      if (todo.id === id) todo.completed = !todo.completed;
+      return todo;
+    });
+  };
+  const editingTask: EditingTaskFunc = (id, value) => {
+    mapper((todo) => {
+      if (todo.id === id) {
+        todo.description = value;
+        todo.created = new Date();
+      }
+      return todo;
+    });
+  };
+  const onFilterTodos: OnFilterTodosFunc = (name = button) => {
+    mapper((item) => {
+      if (name === 'Active') {
+        item.display = !item.completed;
+      } else if (name === 'Completed') {
+        item.display = item.completed;
+      } else {
+        item.display = true;
+      }
+      return item;
+    });
+  };
+  const filter: FilterFunc = (callback) => setTodos(todos.filter(callback));
+  const onDeleted: OnDeletedFunc = (id) => filter((todo) => todo.id !== id);
+  const clearComplete = () => filter((todo) => !todo.completed);
+  const countLeft = todos.filter((item) => item.completed).length;
   const handleEnterForm: HandleKeyUpFormFunc = (event) => {
     const { title, min, sec } = form;
     if (event.key === 'Enter' && title.trim()) {
@@ -81,49 +103,13 @@ const App: FC = () => {
       resetForm();
     }
   };
-
   const handleChangeForm: HandleChangeInputFunc = (event) => {
     const { target } = event;
-    if (target?.dataset.action === 'task-name') setForm({ ...form, title: target.value });
-    if (target?.dataset.action === 'task-min' && (+target.value || target.value === '') && +target.value <= 59)
-      setForm({ ...form, min: target.value });
-    if (target?.dataset.action === 'task-sec' && (+target.value || target.value === '') && +target.value <= 59)
-      setForm({ ...form, sec: target.value });
-  };
-
-  const onDeleted: OnDeletedFunc = (id) => setTodos(todos.filter((todo) => todo.id !== id));
-
-  const onCompleted: OnCompletedFunc = (id) => {
-    const newTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        todo.completed = !todo.completed;
-      }
-      return todo;
-    });
-    setTodos(newTodos);
-  };
-
-  const clearComplete: NoParamsVoidFunc = () => setTodos(todos.filter((item) => (!item.completed ? item : null)));
-
-  const editingTask: EditingTaskFunc = (value, id) => {
-    const newTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        todo.description = value;
-        todo.created = new Date();
-      }
-      return todo;
-    });
-    setTodos(newTodos);
-  };
-
-  const onChangeTimer: OnChangeTimerFunc = (newSec, id) => {
-    const newArray = todos.map((item) => {
-      if (item.id === id) {
-        item.initialSec = newSec;
-      }
-      return item;
-    });
-    setTodos(newArray);
+    const { value, dataset } = target;
+    const maxValue = +value <= 59;
+    if (dataset.action === 'task-name') setForm({ ...form, title: value });
+    if (dataset.action === 'task-min' && maxValue) setForm({ ...form, min: value });
+    if (dataset.action === 'task-sec' && maxValue) setForm({ ...form, sec: value });
   };
   const handleClickFilterButton: HandleClickFilterButtonFunc = (nameButton) => {
     if (countTodos) {
@@ -131,7 +117,6 @@ const App: FC = () => {
       onFilterTodos(nameButton);
     }
   };
-  const countLeft = todos.filter((item) => item.completed).length;
 
   return (
     <section className="todoapp">

@@ -15,16 +15,18 @@ export type FormType = {
   sec: string;
 };
 
+export type EditingTaskFunc = (id: string, value: string) => void;
+export type OnChangeTimerFunc = (id: string, newSec: number) => void;
+export type OnCompletedFunc = (id: string) => void;
+export type MapperFunc = (callback: (todo: Todo) => Todo) => void;
+export type FilterFunc = (callback: (todo: Todo) => boolean) => void;
 export type NoParamsVoidFunc = () => void;
 export type CreateNewTaskFunc = (description: string, min: string, sec: string) => Todo;
 export type DisplayTodoFunc = () => boolean;
-export type OnCompletedFunc = (id: string) => void;
 export type OnDeletedFunc = (id: string) => void;
 export type OnAddTodoFunc = (name: string, min: string, sec: string) => void;
 export type OnFilterTodosFunc = (name?: string) => void;
-export type EditingTaskFunc = (value: string, id: string) => void;
 export type TimerFormatFunc = (num: number) => string;
-export type OnChangeTimerFunc = (newSec: number, id: string) => void;
 export type HandleKeyUpFormFunc = (event: React.KeyboardEvent<HTMLFormElement>) => void;
 export type HandleKeyUpInputFunc = (event: React.KeyboardEvent<HTMLInputElement>) => void;
 export type HandleChangeInputFunc = (event: React.ChangeEvent<HTMLInputElement>) => void;
