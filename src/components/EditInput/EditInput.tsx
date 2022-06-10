@@ -2,13 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 
 import { HandleChangeInputFunc, HandleKeyUpInputFunc, NoParamsVoidFunc } from 'types/todos';
 
-interface EditInputProps {
+interface Props {
   description: string;
   reset: NoParamsVoidFunc;
   handleEditTask: (value: string) => void;
 }
 
-const EditInput: React.FC<EditInputProps> = ({ description, reset, handleEditTask }) => {
+const EditInput: React.FC<Props> = ({ description, reset, handleEditTask }) => {
   const [value, setValue] = useState(description);
   const inputElement = useRef<HTMLInputElement | null>(null);
 
