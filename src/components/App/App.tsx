@@ -60,7 +60,7 @@ const App: FC = () => {
     setTodos([...todos, createNewTask(description, min, sec)]);
   const mapper: MapperFunc = (callback) => setTodos(todos.map(callback));
   const onChangeTimer: OnChangeTimerFunc = (id, newSec) => {
-    mapper((todo: Todo) => {
+    mapper((todo) => {
       if (todo.id === id) todo.initialSec = newSec;
       return todo;
     });
